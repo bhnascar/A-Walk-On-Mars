@@ -1,0 +1,265 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7813093D1744B236000802B2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7813093C1744B236000802B2 /* main.cpp */; };
+		7813093F1744B236000802B2 /* Procedural_Terrain_Map.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7813093E1744B236000802B2 /* Procedural_Terrain_Map.1 */; };
+		7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7813094E1744BBB6000802B2 /* OpenGL.framework */; };
+		781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781309501744BBBE000802B2 /* Cocoa.framework */; };
+		7813095B1744BC27000802B2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7813095A1744BC27000802B2 /* GLUT.framework */; };
+		781309801744C3CC000802B2 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7813097E1744C3CC000802B2 /* Program.cpp */; };
+		781309841744C4F1000802B2 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 781309821744C4F1000802B2 /* Texture.cpp */; };
+		78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78392F0D1745960400AD47CD /* Bitmap.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		781309361744B235000802B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				7813093F1744B236000802B2 /* Procedural_Terrain_Map.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		781309381744B235000802B2 /* Procedural Terrain Map */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Procedural Terrain Map"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7813093C1744B236000802B2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7813093E1744B236000802B2 /* Procedural_Terrain_Map.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Procedural_Terrain_Map.1; sourceTree = "<group>"; };
+		7813094E1744BBB6000802B2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		781309501744BBBE000802B2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		7813095A1744BC27000802B2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		7813097E1744C3CC000802B2 /* Program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
+		7813097F1744C3CC000802B2 /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
+		781309811744C4F1000802B2 /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
+		781309821744C4F1000802B2 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		781309831744C4F1000802B2 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		78130C741744C7CD000802B2 /* wirefragment.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = wirefragment.frag; sourceTree = "<group>"; };
+		78130C751744C7CD000802B2 /* wirevertex.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = wirevertex.vert; sourceTree = "<group>"; };
+		78392F0D1745960400AD47CD /* Bitmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bitmap.cpp; sourceTree = "<group>"; };
+		78392F0E1745960400AD47CD /* Bitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitmap.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		781309351744B235000802B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7813095B1744BC27000802B2 /* GLUT.framework in Frameworks */,
+				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
+				7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7813092D1744B235000802B2 = {
+			isa = PBXGroup;
+			children = (
+				7813095A1744BC27000802B2 /* GLUT.framework */,
+				781309501744BBBE000802B2 /* Cocoa.framework */,
+				7813094E1744BBB6000802B2 /* OpenGL.framework */,
+				78130C711744C7CD000802B2 /* Shaders */,
+				7813093B1744B235000802B2 /* Procedural Terrain Map */,
+				781309391744B235000802B2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		781309391744B235000802B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				781309381744B235000802B2 /* Procedural Terrain Map */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7813093B1744B235000802B2 /* Procedural Terrain Map */ = {
+			isa = PBXGroup;
+			children = (
+				78392F0D1745960400AD47CD /* Bitmap.cpp */,
+				78392F0E1745960400AD47CD /* Bitmap.h */,
+				781309811744C4F1000802B2 /* Material.h */,
+				781309821744C4F1000802B2 /* Texture.cpp */,
+				781309831744C4F1000802B2 /* Texture.h */,
+				7813097E1744C3CC000802B2 /* Program.cpp */,
+				7813097F1744C3CC000802B2 /* Program.h */,
+				7813093C1744B236000802B2 /* main.cpp */,
+				7813093E1744B236000802B2 /* Procedural_Terrain_Map.1 */,
+			);
+			path = "Procedural Terrain Map";
+			sourceTree = "<group>";
+		};
+		78130C711744C7CD000802B2 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				78130C741744C7CD000802B2 /* wirefragment.frag */,
+				78130C751744C7CD000802B2 /* wirevertex.vert */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		781309371744B235000802B2 /* Procedural Terrain Map */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "Procedural Terrain Map" */;
+			buildPhases = (
+				781309341744B235000802B2 /* Sources */,
+				781309351744B235000802B2 /* Frameworks */,
+				781309361744B235000802B2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Procedural Terrain Map";
+			productName = "Procedural Terrain Map";
+			productReference = 781309381744B235000802B2 /* Procedural Terrain Map */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7813092F1744B235000802B2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Ben-han Sung";
+			};
+			buildConfigurationList = 781309321744B235000802B2 /* Build configuration list for PBXProject "Procedural Terrain Map" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7813092D1744B235000802B2;
+			productRefGroup = 781309391744B235000802B2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				781309371744B235000802B2 /* Procedural Terrain Map */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		781309341744B235000802B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7813093D1744B236000802B2 /* main.cpp in Sources */,
+				781309801744C3CC000802B2 /* Program.cpp in Sources */,
+				781309841744C4F1000802B2 /* Texture.cpp in Sources */,
+				78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		781309401744B236000802B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		781309411744B236000802B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		781309431744B236000802B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/include;
+			};
+			name = Debug;
+		};
+		781309441744B236000802B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/include;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		781309321744B235000802B2 /* Build configuration list for PBXProject "Procedural Terrain Map" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				781309401744B236000802B2 /* Debug */,
+				781309411744B236000802B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "Procedural Terrain Map" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				781309431744B236000802B2 /* Debug */,
+				781309441744B236000802B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7813092F1744B235000802B2 /* Project object */;
+}
