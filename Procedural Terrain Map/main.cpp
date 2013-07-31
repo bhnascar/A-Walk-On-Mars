@@ -10,6 +10,7 @@
 
 #include "Program.h"
 #include "Texture.h"
+#include "ParticleSystem.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,6 +23,7 @@
 using namespace::glm;
 using namespace::std;
 
+static ParticleSystem *particle_sys;
 static Program *program;
 static Texture *heightField;
 
@@ -30,6 +32,7 @@ static mat4 view;
 static vec3 eyePos;
 
 static float *path;
+static float count;
 
 static fquat orientation;
 bool key_right, key_left, key_up, key_down;
@@ -42,7 +45,7 @@ int sign() {
     return ((arc4random() % 2) ? 1 : -1);
 }
 
-float rand(float min, float max) {
+float rand2(float min, float max) {
     return min + (float)random() / RAND_MAX * (max - min);
 }
 
@@ -82,7 +85,7 @@ void seed(float *map, float featureSize)
 {
     for (int i = 0; i < ARR_SIZE; i += featureSize) {
         for (int j = 0; j < ARR_SIZE; j += featureSize) {
-            setSample(map, i, j, rand(-1.0, 1.0));
+            setSample(map, i, j, rand2(-1.0, 1.0));
         }
     }
 }
@@ -122,15 +125,15 @@ void diamondSquare(float *map, float featureSize)
         // Square step
         for (int i = halfSquare; i < ARR_SIZE + halfSquare; i += squareSize) {
             for (int j = halfSquare; j < ARR_SIZE + halfSquare; j += squareSize) {
-                square(map, halfSquare, i, j, scale * rand(-1.0, 1.0));
+                square(map, halfSquare, i, j, scale * rand2(-1.0, 1.0));
             }
         }
         
         // Diamond step
         for (int i = halfSquare; i < ARR_SIZE + halfSquare; i += squareSize) {
             for (int j = halfSquare; j < ARR_SIZE + halfSquare; j += squareSize) {
-                diamond(map, halfSquare, i - halfSquare, j, scale * rand(-1.0, 1.0));
-                diamond(map, halfSquare, i, j - halfSquare, scale * rand(-1.0, 1.0));
+                diamond(map, halfSquare, i - halfSquare, j, scale * rand2(-1.0, 1.0));
+                diamond(map, halfSquare, i, j - halfSquare, scale * rand2(-1.0, 1.0));
             }
         }
         
@@ -159,7 +162,7 @@ void midpointDisplace(float *path, int lower, int upper, float scale)
         return;
     
     float gap = upper - lower;
-    path[midpoint] = (path[upper] + path[lower]) / 2.0 + scale * rand(-gap, gap);
+    path[midpoint] = (path[upper] + path[lower]) / 2.0 + scale * rand2(-gap, gap);
     
     midpointDisplace(path, lower, midpoint, scale / 2.0);
     midpointDisplace(path, midpoint, upper, scale / 2.0);
@@ -172,8 +175,8 @@ float *mapGen()
     diamondSquare(map, FEATURE_SIZE);
     normalize(map);
     
-    heightField = new Texture(ARR_SIZE, ARR_SIZE, GL_LUMINANCE, map);
-    //heightField = new Texture("field.bmp");
+    //heightField = new Texture(ARR_SIZE, ARR_SIZE, GL_LUMINANCE, map);
+    heightField = new Texture("field.bmp");
     
     return map;
 }
@@ -197,8 +200,8 @@ float *pathGen()
     float *path = new float[ARR_SIZE];
     
     // Seed path
-    path[0] = rand(0, ARR_SIZE);
-    path[ARR_SIZE - 1] = rand(0, ARR_SIZE);
+    path[0] = rand2(0, ARR_SIZE);
+    path[ARR_SIZE - 1] = rand2(0, ARR_SIZE);
     
     // Midpoint displacement
     midpointDisplace(path, 0, ARR_SIZE - 1, 0.5);
@@ -238,11 +241,13 @@ void display() {
     mat4 MVP = projection * view * model;
     program->SetUniform("MVP", MVP);
     program->SetUniform("illum", 0);
+    program->SetUniform("displace", 1);
+    program->SetUniform("base_color", vec3(0.0, 0.4, 0.5));
     program->SetUniform("heightField", heightField, GL_TEXTURE0);
     
     float halfSize = ARR_SIZE / 2;
     float increment = 1.0f / ARR_SIZE;
-    for (int i = -ARR_SIZE / 2; i < ARR_SIZE / 2; i++) {
+    /* for (int i = -ARR_SIZE / 2; i < ARR_SIZE / 2; i++) {
         for (int j = -ARR_SIZE / 2; j < ARR_SIZE / 2; j++) {
             glLineWidth(2.0);
             glBegin(GL_LINE_LOOP);
@@ -267,7 +272,7 @@ void display() {
             glVertex3f((i + 1) * increment, j * increment, 0);
             glEnd();
         }
-    }
+    } */
     
     // Phong shading
     program->SetUniform("illum", 1);
@@ -296,6 +301,10 @@ void display() {
     glEnd();
     
     glPopMatrix();
+    
+    program->SetUniform("displace", 0);
+    
+    //particle_sys->Draw(*program, projection * view, eyePos, inverse(view));
     
     program->Unuse();
     
@@ -438,6 +447,9 @@ void animate()
     else if (zoom_out)
         eyePos += vec3(0, 0, 0.01);
     
+    ::count += 0.001;
+    particle_sys->Update(::count);
+    
     glutPostRedisplay();
 }
 
@@ -464,10 +476,16 @@ int main(int argc, char * argv[])
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_CULL_FACE);
+    // glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     
     srand((unsigned int)time(NULL));
     program = new Program("Shaders/wirevertex.vert", "Shaders/wirefragment.frag");
+    particle_sys = new ParticleSystem();
+    particle_sys->AddFluidCluster(vec3(0, 0, 0),
+                                  vec3(5.5, 0, 5.5),
+                                  vec3(0.0, 0.9, 0.0));
     orientation = fquat();
     eyePos = vec3(0, 0, 1);
     mapGen();

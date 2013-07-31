@@ -15,6 +15,9 @@
 		781309801744C3CC000802B2 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7813097E1744C3CC000802B2 /* Program.cpp */; };
 		781309841744C4F1000802B2 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 781309821744C4F1000802B2 /* Texture.cpp */; };
 		78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78392F0D1745960400AD47CD /* Bitmap.cpp */; };
+		78BDC5D61752107C00CBEB9F /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */; };
+		78BDC5D9175210A000CBEB9F /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5D7175210A000CBEB9F /* Buffer.cpp */; };
+		78BDC5DC175210C700CBEB9F /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5DA175210C700CBEB9F /* Model.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +49,12 @@
 		78130C751744C7CD000802B2 /* wirevertex.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = wirevertex.vert; sourceTree = "<group>"; };
 		78392F0D1745960400AD47CD /* Bitmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bitmap.cpp; sourceTree = "<group>"; };
 		78392F0E1745960400AD47CD /* Bitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitmap.h; sourceTree = "<group>"; };
+		78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
+		78BDC5D51752107C00CBEB9F /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		78BDC5D7175210A000CBEB9F /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
+		78BDC5D8175210A000CBEB9F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
+		78BDC5DA175210C700CBEB9F /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		78BDC5DB175210C700CBEB9F /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +94,12 @@
 		7813093B1744B235000802B2 /* Procedural Terrain Map */ = {
 			isa = PBXGroup;
 			children = (
+				78BDC5D7175210A000CBEB9F /* Buffer.cpp */,
+				78BDC5D8175210A000CBEB9F /* Buffer.h */,
+				78BDC5DA175210C700CBEB9F /* Model.cpp */,
+				78BDC5DB175210C700CBEB9F /* Model.h */,
+				78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */,
+				78BDC5D51752107C00CBEB9F /* ParticleSystem.h */,
 				78392F0D1745960400AD47CD /* Bitmap.cpp */,
 				78392F0E1745960400AD47CD /* Bitmap.h */,
 				781309811744C4F1000802B2 /* Material.h */,
@@ -162,6 +177,9 @@
 				781309801744C3CC000802B2 /* Program.cpp in Sources */,
 				781309841744C4F1000802B2 /* Texture.cpp in Sources */,
 				78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */,
+				78BDC5D61752107C00CBEB9F /* ParticleSystem.cpp in Sources */,
+				78BDC5D9175210A000CBEB9F /* Buffer.cpp in Sources */,
+				78BDC5DC175210C700CBEB9F /* Model.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
