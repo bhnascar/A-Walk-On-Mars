@@ -12,7 +12,6 @@
 #include <string>
 
 #include "Texture.h"
-#include "Material.h"
 
 /** The shader class serves as a wrapper around a GLint that openGL
     uses to reference a shader. Shaders can be used for multiple

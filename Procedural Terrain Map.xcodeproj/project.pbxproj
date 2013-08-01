@@ -15,9 +15,7 @@
 		781309801744C3CC000802B2 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7813097E1744C3CC000802B2 /* Program.cpp */; };
 		781309841744C4F1000802B2 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 781309821744C4F1000802B2 /* Texture.cpp */; };
 		78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78392F0D1745960400AD47CD /* Bitmap.cpp */; };
-		78BDC5D61752107C00CBEB9F /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */; };
-		78BDC5D9175210A000CBEB9F /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5D7175210A000CBEB9F /* Buffer.cpp */; };
-		78BDC5DC175210C700CBEB9F /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78BDC5DA175210C700CBEB9F /* Model.cpp */; };
+		78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,19 +40,15 @@
 		7813095A1744BC27000802B2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		7813097E1744C3CC000802B2 /* Program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
 		7813097F1744C3CC000802B2 /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
-		781309811744C4F1000802B2 /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
 		781309821744C4F1000802B2 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
 		781309831744C4F1000802B2 /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		78130C741744C7CD000802B2 /* wirefragment.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = wirefragment.frag; sourceTree = "<group>"; };
 		78130C751744C7CD000802B2 /* wirevertex.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = wirevertex.vert; sourceTree = "<group>"; };
 		78392F0D1745960400AD47CD /* Bitmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bitmap.cpp; sourceTree = "<group>"; };
 		78392F0E1745960400AD47CD /* Bitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bitmap.h; sourceTree = "<group>"; };
-		78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
-		78BDC5D51752107C00CBEB9F /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
-		78BDC5D7175210A000CBEB9F /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
-		78BDC5D8175210A000CBEB9F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
-		78BDC5DA175210C700CBEB9F /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
-		78BDC5DB175210C700CBEB9F /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		78BA991117AA3D84004B9B64 /* bitmap_image.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bitmap_image.hpp; sourceTree = "<group>"; };
+		78BA991417AA4AE3004B9B64 /* CMSpline.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CMSpline.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +57,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7813095B1744BC27000802B2 /* GLUT.framework in Frameworks */,
-				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
 				7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */,
+				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
+				78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +69,7 @@
 		7813092D1744B235000802B2 = {
 			isa = PBXGroup;
 			children = (
+				7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */,
 				7813095A1744BC27000802B2 /* GLUT.framework */,
 				781309501744BBBE000802B2 /* Cocoa.framework */,
 				7813094E1744BBB6000802B2 /* OpenGL.framework */,
@@ -94,19 +90,14 @@
 		7813093B1744B235000802B2 /* Procedural Terrain Map */ = {
 			isa = PBXGroup;
 			children = (
-				78BDC5D7175210A000CBEB9F /* Buffer.cpp */,
-				78BDC5D8175210A000CBEB9F /* Buffer.h */,
-				78BDC5DA175210C700CBEB9F /* Model.cpp */,
-				78BDC5DB175210C700CBEB9F /* Model.h */,
-				78BDC5D41752107C00CBEB9F /* ParticleSystem.cpp */,
-				78BDC5D51752107C00CBEB9F /* ParticleSystem.h */,
+				78BA991117AA3D84004B9B64 /* bitmap_image.hpp */,
 				78392F0D1745960400AD47CD /* Bitmap.cpp */,
 				78392F0E1745960400AD47CD /* Bitmap.h */,
-				781309811744C4F1000802B2 /* Material.h */,
 				781309821744C4F1000802B2 /* Texture.cpp */,
 				781309831744C4F1000802B2 /* Texture.h */,
 				7813097E1744C3CC000802B2 /* Program.cpp */,
 				7813097F1744C3CC000802B2 /* Program.h */,
+				78BA991417AA4AE3004B9B64 /* CMSpline.hpp */,
 				7813093C1744B236000802B2 /* main.cpp */,
 				7813093E1744B236000802B2 /* Procedural_Terrain_Map.1 */,
 			);
@@ -177,9 +168,6 @@
 				781309801744C3CC000802B2 /* Program.cpp in Sources */,
 				781309841744C4F1000802B2 /* Texture.cpp in Sources */,
 				78392F0F1745960400AD47CD /* Bitmap.cpp in Sources */,
-				78BDC5D61752107C00CBEB9F /* ParticleSystem.cpp in Sources */,
-				78BDC5D9175210A000CBEB9F /* Buffer.cpp in Sources */,
-				78BDC5DC175210C700CBEB9F /* Model.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +229,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/opt/local/include,
+					/opt/local/include/freetype2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					/opt/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"-stdlib=libc++",
+					"-std=c++11",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include;
 			};
 			name = Debug;
@@ -250,8 +256,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/opt/local/include,
+					/opt/local/include/freetype2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/lib,
+					/opt/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"-stdlib=libc++",
+					"-std=c++11",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include;
 			};
 			name = Release;

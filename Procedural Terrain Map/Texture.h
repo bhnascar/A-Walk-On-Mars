@@ -22,6 +22,13 @@ public:
     Texture(std::string filename);
     ~Texture();
     
+    /** Returns the float data */
+    char *GetData();
+    
+    /** Get dimensions */
+    GLfloat GetWidth() { return width; }
+    GLfloat GetHeight() { return height; }
+    
     /** Loads this texture onto the GPU */
     virtual void Bind();
     

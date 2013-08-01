@@ -1,6 +1,11 @@
 #version 110
 
+#define ATTENUATION_DISTANCE 100.0
+
 uniform sampler2D texture;
+uniform sampler2D noiseField;
+uniform sampler2D cracks;
+
 uniform vec3 base_color;
 
 varying vec3 pos;
@@ -9,28 +14,24 @@ varying vec2 texCoords;
 
 uniform bool textured;
 uniform bool illum;
+uniform bool add;
 
 void main() {
     vec3 cameraPosition = vec3(0.0, 0.0, 1.0);
-    vec3 lightPosition = vec3(0.0, 1.0, 1.0);
+    vec3 lightPosition = vec3(5.0, 5.0, 7.0);
 
     vec4 final_color;
     
-    if (textured) {
-        vec4 blah = texture2D(texture, texCoords);
-        float illum = (0.3 * blah.x + 0.59 * blah.y + 0.1 * blah.z);
-        final_color = vec4(1.0, 0.0, 0.0, illum);
-    }
-    else if (illum) {
+    if (illum) {
         // Calculate colors
-        vec3 ambientColor = 0.3 * base_color;
+        vec3 ambientColor = 0.1 * base_color;
         vec3 diffuseColor = base_color;
         
         // Camera position
         vec3 V = normalize(pos - cameraPosition);
         vec3 L = normalize(lightPosition - pos);
         vec3 H = normalize(L - V);
-        vec3 N = normalize(-cross(dFdx(pos), dFdy(pos)));
+        vec3 N = normal;
         
         // Calculate ambient
         vec3 ambient = ambientColor;
@@ -45,6 +46,27 @@ void main() {
     else {
         final_color = vec4(0.0, 0.7, 0.9, 1.0);
     }
+    if (textured) {
+        vec4 textureColor = texture2D(noiseField, texCoords);
+        vec4 crackColor = texture2D(cracks, texCoords);
+        final_color *= textureColor;
+    }
     
-    gl_FragColor = final_color;
+    // Attenuation factor
+    float distance = length(pos - lightPosition);
+    float attenuation = ((ATTENUATION_DISTANCE - distance) / ATTENUATION_DISTANCE);
+    gl_FragColor = attenuation * final_color;
+    
+    /* Height debug
+    if (pos.z > 0.9)
+        gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    else if (pos.z > 0.5)
+        gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+    else if (pos.z > 0.1)
+        gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+    else if (pos.z > -0.5)
+        gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+    else if (pos.z > -1.0)
+        gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
+     */
 }

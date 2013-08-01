@@ -1,43 +1,54 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
+#include <ApplicationServices/ApplicationServices.h>
 #else
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #endif
 
-#include <iostream>
-
 #include "Program.h"
 #include "Texture.h"
-#include "ParticleSystem.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#include "bitmap_image.hpp"
+
 /* Must be a power of 2 */
-#define ARR_SIZE 128
-#define FEATURE_SIZE 32
+#define ARR_SIZE 1024
+#define FEATURE_SIZE 1
 
 using namespace::glm;
 using namespace::std;
 
-static ParticleSystem *particle_sys;
 static Program *program;
 static Texture *heightField;
+static Texture *noiseField;
+static Texture *cracks;
+
+static int win_width;
+static int win_height;
 
 static mat4 projection;
 static mat4 view;
+
 static vec3 eyePos;
+static vec3 eyeDir;
+static vec3 eyeLeft;
+static vec3 eyeUp;
+static quat eyeOrientation;
 
 static float *path;
 static float count;
 
+static bitmap_image *image;
+
 static fquat orientation;
-bool key_right, key_left, key_up, key_down;
-bool roll_left, roll_right;
-bool zoom_in, zoom_out;
+bool mforward, mleft, mright, mbackward;
+bool aleft, aright, aup, adown;
+float theta, phi;
 
 /** Random terrain generation */
 
@@ -152,6 +163,8 @@ void normalize(float *map)
     }
     for (int i = 0; i < ARR_SIZE * ARR_SIZE; i++) {
         map[i] /= max;
+        map[i] *= 0.1;
+        map[i] += 0.6;
     }
 }
 
@@ -175,8 +188,9 @@ float *mapGen()
     diamondSquare(map, FEATURE_SIZE);
     normalize(map);
     
-    //heightField = new Texture(ARR_SIZE, ARR_SIZE, GL_LUMINANCE, map);
-    heightField = new Texture("field.bmp");
+    noiseField = new Texture(ARR_SIZE, ARR_SIZE, GL_LUMINANCE, map);
+    cracks = new Texture("rock.bmp");
+    heightField = new Texture("mars.bmp");
     
     return map;
 }
@@ -211,7 +225,7 @@ float *pathGen()
         path[i] /= ARR_SIZE;
     }
     
-    logPath(path);
+    // logPath(path);
     
     return path;
 }
@@ -219,66 +233,36 @@ float *pathGen()
 void display() {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
     
     program->Use();
     
-    glLoadIdentity();
-    
-    
-    /* Path generation
-     glLineWidth(3.0);
-     glBegin(GL_LINE_STRIP);
-     for (int i = 0; i < ARR_SIZE; i++) {
-     glVertex3f(path[i] - 0.5, (float)i / ARR_SIZE - 0.5, 0.0);
-     }
-     glEnd();*/
+    glPushMatrix();
     
     mat4 model = mat4(1) * glm::mat4_cast(orientation);
-    view = glm::lookAt(eyePos,         // Eye
-                       vec3(0, 0, 0),  // Apple
-                       vec3(0, 1, 0)); // Up
+    view = glm::lookAt(eyePos,           // Eye
+                       eyePos + eyeDir,  // Apple
+                       eyeUp);           // Up
     
     mat4 MVP = projection * view * model;
     program->SetUniform("MVP", MVP);
     program->SetUniform("illum", 0);
     program->SetUniform("displace", 1);
-    program->SetUniform("base_color", vec3(0.0, 0.4, 0.5));
+    program->SetUniform("textured", 1);
+    program->SetUniform("base_color", vec3(1.00, 0.55, 0.0));
     program->SetUniform("heightField", heightField, GL_TEXTURE0);
+    program->SetUniform("noiseField", noiseField, GL_TEXTURE1);
+    program->SetUniform("cracks", cracks, GL_TEXTURE2);
     
-    float halfSize = ARR_SIZE / 2;
-    float increment = 1.0f / ARR_SIZE;
-    /* for (int i = -ARR_SIZE / 2; i < ARR_SIZE / 2; i++) {
-        for (int j = -ARR_SIZE / 2; j < ARR_SIZE / 2; j++) {
-            glLineWidth(2.0);
-            glBegin(GL_LINE_LOOP);
-            glTexCoord2f((i + halfSize + 1) * increment, (j + halfSize + 1) * increment);
-            glVertex3f((i + 1) * increment, (j + 1) * increment, 0);
-            
-            glTexCoord2f((i + halfSize) * increment, (j + halfSize + 1) * increment);
-            glVertex3f(i * increment, (j + 1) * increment, 0);
-            
-            glTexCoord2f((i + halfSize) * increment, (j + halfSize) * increment);
-            glVertex3f(i * increment, j * increment, 0);
-            glEnd();
-            
-            glBegin(GL_LINE_LOOP);
-            glTexCoord2f((i + halfSize + 1) * increment, (j + halfSize + 1) * increment);
-            glVertex3f((i + 1) * increment, (j + 1) * increment, 0);
-            
-            glTexCoord2f((i + halfSize) * increment, (j + halfSize) * increment);
-            glVertex3f(i * increment, j * increment, 0);
-            
-            glTexCoord2f((i + halfSize + 1) * increment, (j + halfSize) * increment);
-            glVertex3f((i + 1) * increment, j * increment, 0);
-            glEnd();
-        }
-    } */
+    float detailLevel = 600.0f;
+    float halfSize = detailLevel / 2.0f;
+    float increment = 1.0f / detailLevel;
     
-    // Phong shading
+    // Heavily tesselated square
     program->SetUniform("illum", 1);
     glBegin(GL_TRIANGLES);
-    for (int i = -ARR_SIZE / 2; i < ARR_SIZE / 2; i++) {
-        for (int j = -ARR_SIZE / 2; j < ARR_SIZE / 2; j++) {
+    for (int i = -halfSize; i < halfSize; i++) {
+        for (int j = -halfSize; j < halfSize; j++) {
             glTexCoord2f((i + halfSize + 1) * increment, (j + halfSize + 1) * increment);
             glVertex3f((i + 1) * increment, (j + 1) * increment, 0);
             
@@ -300,18 +284,24 @@ void display() {
     }
     glEnd();
     
-    glPopMatrix();
+    program->SetUniform("MVP", MVP);
+    program->SetUniform("textured", 0);
+    program->SetUniform("displace", 1);
+    program->SetUniform("base_color", vec3(1.0, 0.75, 0.30));
     
-    program->SetUniform("displace", 0);
-    
-    //particle_sys->Draw(*program, projection * view, eyePos, inverse(view));
+    glutSolidSphere(1.0, 10, 10);
     
     program->Unuse();
+    
+    glPopMatrix();
     
     glutSwapBuffers();
 }
 
 void reshape(int w, int h) {
+    win_width = w;
+    win_height = h;
+    
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -322,7 +312,7 @@ void reshape(int w, int h) {
     float ratio = (float)w / h;
     projection = glm::perspective(75.0f,        // Field of view
                                   ratio,        // Aspect ratio
-                                  0.1f,         // Near clipping plane
+                                  0.001f,         // Near clipping plane
                                   100.0f);      // Far clipping plane
     glMatrixMode(GL_MODELVIEW);
     
@@ -336,17 +326,17 @@ void keyboard_down(unsigned char key, int x, int y)
         case 27:    // Escape key
             exit(0);
             break;
-        case 'a':   // Roll left
-            roll_left = true;
+        case 'a':
+            mleft = true;
             break;
-        case 'd':   // Roll right
-            roll_right = true;
+        case 'd':
+            mright = true;
             break;
-        case 'q':
-            zoom_in = true;
+        case 's':
+            mbackward = true;
             break;
         case 'w':
-            zoom_out = true;
+            mforward = true;
             break;
         default:
             break;
@@ -357,98 +347,149 @@ void keyboard_down(unsigned char key, int x, int y)
 void keyboard_up(unsigned char key, int x, int y)
 {
     switch(key) {
-        case 'a':   // Roll left
-            roll_left = false;
+        case 'a':
+            mleft = false;
             break;
-        case 'd':   // Roll right
-            roll_right = false;
+        case 'd':
+            mright = false;
             break;
-        case 'q':
-            zoom_in = false;
+        case 's':
+            mbackward = false;
             break;
         case 'w':
-            zoom_out = false;
+            mforward = false;
             break;
         default:
             break;
     }
 }
 
-/* GLUT 'special' key down callback */
+/* GLUT arrow key down callback */
 void arrow_down(int key, int x, int y)
 {
     switch(key) {
-        case GLUT_KEY_LEFT:
-            key_left = true;
-            break;
-        case GLUT_KEY_RIGHT:
-            key_right = true;
-            break;
         case GLUT_KEY_DOWN:
-            key_down = true;
+            adown = true;
             break;
         case GLUT_KEY_UP:
-            key_up = true;
+            aup = true;
+            break;
+        case GLUT_KEY_LEFT:
+            aleft = true;
+            break;
+        case GLUT_KEY_RIGHT:
+            aright = true;
             break;
         default:
             break;
     }
 }
 
-/* GLUT 'special' key up callback */
+/* GLUT arrow key up callback */
 void arrow_up(int key, int x, int y)
 {
     switch(key) {
-        case GLUT_KEY_LEFT:
-            key_left = false;
-            break;
-        case GLUT_KEY_RIGHT:
-            key_right = false;
-            break;
         case GLUT_KEY_DOWN:
-            key_down = false;
+            adown = false;
             break;
         case GLUT_KEY_UP:
-            key_up = false;
+            aup = false;
+            break;
+        case GLUT_KEY_LEFT:
+            aleft = false;
+            break;
+        case GLUT_KEY_RIGHT:
+            aright = false;
             break;
         default:
             break;
     }
+}
+
+
+void mouse(int x, int y)
+{
+    glutWarpPointer(win_width / 2, win_height / 2);
+    
+    // Compute new orientation
+    theta += 0.005 * (win_width / 2 - x);
+    phi   += 0.005 * (win_height / 2 - y);
+    
+    // Clamp up-down
+    if (phi > M_PI / 2)
+        phi = M_PI / 2;
+    else if (phi < -M_PI / 2)
+        phi = -M_PI / 2;
+}
+
+/* x,y from -0.5 to 0.5 */
+float fetchZ(float x, float y)
+{
+    // Convert from (-0.5, 0.5) to (0, 1)
+    x += 0.5;
+    y += 0.5;
+    
+    // Convert to pixels (0 - 600)
+    x *= image->width();
+    y *= image->height();
+    unsigned int xLoc = floorf(x);
+    unsigned int yLoc = floorf(y);
+    unsigned int xNext = ceilf(x);
+    unsigned int yNext = ceilf(y);
+    xLoc %= (int)image->width();
+    yLoc %= (int)image->height();
+    xNext %= (int)image->width();
+    yNext %= (int)image->height();
+    
+    // Flip
+    yLoc = image->height() - yLoc;
+    yNext = image->height() - yNext;
+    
+    // Get past height
+    unsigned char r = 0, g = 0, b = 0;
+    image->get_pixel(xLoc, yLoc, r, g, b);
+    float height = (r + g + b) / 765.0f;
+    
+    // Get next height
+    image->get_pixel(xNext, yNext, r, g, b);
+    float nextHeight = (r + g + b) / 765.0f;
+    
+    // Interpolate between
+    float gap = (nextHeight - height);
+    float full_dist = sqrt(pow(xNext - xLoc, 2) + pow(yNext - yLoc, 2));
+    float my_dist = sqrt(pow(x - xLoc, 2) + pow(y - yLoc, 2));
+    float finalHeight = height + gap * (my_dist / full_dist);
+    
+    return 0.05 * finalHeight + 0.005;
 }
 
 void animate()
 {
-    float yaw = 0;
-    float pitch = 0;
-    float roll = 0;
+    float speed = 0.0005f;
     
-    if (key_left)
-        yaw = -M_PI / 180;
-    if (key_right)
-        yaw = M_PI / 180;
-    if (key_up)
-        pitch = -M_PI / 180;
-    if (key_down)
-        pitch = M_PI / 180;
-    if (roll_left)
-        roll = -M_PI / 180;
-    if (roll_right)
-        roll = M_PI / 180;
+    if (mforward)
+        eyePos += speed * eyeDir;
+    if (mbackward)
+        eyePos -= speed * eyeDir;
+    if (mleft)
+        eyePos += speed * eyeLeft;
+    if (mright)
+        eyePos -= speed * eyeLeft;
     
-    // Rotate model
-    orientation = orientation * fquat(yaw, 0.0, 1.0, 0.0);
-    orientation = orientation * fquat(pitch, 1.0, 0.0, 0.0);
-    orientation = orientation * fquat(roll, 0.0, 0.0, 1.0);
-    orientation = glm::normalize(orientation);
+    if (aup)
+        eyePos.z -= 0.01;
+    if (adown)
+        eyePos.z += 0.01;
     
-    // Zoom
-    if (zoom_in)
-        eyePos -= vec3(0, 0, 0.01);
-    else if (zoom_out)
-        eyePos += vec3(0, 0, 0.01);
+    eyePos.z = fetchZ(eyePos.x, eyePos.y);
+    
+    // Compute view vectors
+    quat orientation = eyeOrientation * fquat(vec3(phi, 0, theta));
+    eyeDir = orientation * vec3(0, 1, 0);
+    eyeUp = orientation * vec3(0, 0, 1);
+    eyeLeft = orientation * vec3(-1, 0, 0);
     
     ::count += 0.001;
-    particle_sys->Update(::count);
     
     glutPostRedisplay();
 }
@@ -458,7 +499,8 @@ int main(int argc, char * argv[])
     // Glut init
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
-    glutInitWindowSize(1024, 768);
+    //glutInitWindowSize(600, 600);
+    glutInitWindowSize(1280, 880);
     
     glutCreateWindow("Procedural terrain demo");
     glutPositionWindow(0, 0);
@@ -471,23 +513,30 @@ int main(int argc, char * argv[])
     glutSpecialFunc(arrow_down);
     glutSpecialUpFunc(arrow_up);
     glutIdleFunc(animate);
+    glutPassiveMotionFunc(mouse);
     
     // Enable the necessary goodies
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
-    // glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    
+#ifdef __APPLE__
+	CGSetLocalEventsSuppressionInterval(0.0);
+#endif
     
     srand((unsigned int)time(NULL));
     program = new Program("Shaders/wirevertex.vert", "Shaders/wirefragment.frag");
-    particle_sys = new ParticleSystem();
-    particle_sys->AddFluidCluster(vec3(0, 0, 0),
-                                  vec3(5.5, 0, 5.5),
-                                  vec3(0.0, 0.9, 0.0));
+
+    eyeOrientation = fquat();
+    eyePos = vec3(0, 0, 0);
+    eyeUp = vec3(0, 0, 1);
+    eyeDir = vec3(0, 1, 0);
+    eyeLeft = vec3(-1, 0, 0);
+    
     orientation = fquat();
-    eyePos = vec3(0, 0, 1);
+    
+    image = new bitmap_image("mars.bmp");
+    
     mapGen();
     path = pathGen();
     

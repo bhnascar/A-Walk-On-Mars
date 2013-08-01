@@ -39,6 +39,11 @@ Texture::~Texture()
         delete bitmap;
 }
 
+char *Texture::GetData()
+{
+    return bitmap->data;
+}
+
 /* Loads a texture file into the shader */
 void Texture::LoadTexFile(char *filename)
 {
