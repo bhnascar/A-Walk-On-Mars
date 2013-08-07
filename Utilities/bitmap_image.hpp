@@ -29,7 +29,8 @@
 #include <limits>
 #include <cmath>
 #include <cstdlib>
-
+#include <glm/glm.hpp>
+#include "CMSpline.hpp"
 
 class bitmap_image
 {
@@ -168,10 +169,51 @@ public:
       red   = data_[(y * row_increment_) + (x * bytes_per_pixel_ + 2)];
    }
     
+    inline float get_interpolated_height(const float x, const float y,
+                                         const float step,
+                                         glm::vec2 dir)
+    {
+        float x1 = floorf(x - step * dir.x);
+        float y1 = floorf(y - step * dir.y);
+        float z1 = get_height(x1, y1);
+        glm::vec3 p1(x1, y1, z1);
+        
+        float x2 = ceilf(x);
+        float y2 = floorf(y);
+        float z2 = get_height(x2, y2);
+        glm::vec3 p2(x2, y2, z2);
+        
+        float x3 = ceilf(x + step * dir.x);
+        float y3 = ceilf(y + step * dir.y);
+        float z3 = get_height(x3, y3);
+        glm::vec3 p3(x3, y3, z3);
+        
+        float x4 = floorf(x + 2 * step * dir.x);
+        float y4 = ceilf(y + 2 * step * dir.y);
+        float z4 = get_height(x4, y4);
+        glm::vec3 p4(x4, y4, z4);
+        
+        float x5 = (x3 < x) ? x3 : x;
+        float y5 = (y3 < y) ? y3 : y;
+        float dist = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2));
+        float gap = sqrt(pow(x5 - x2, 2) + pow(y5 - y2, 2));
+        
+        if (dist > 0.000000001) {
+            float u = gap / dist;
+            CMSpline spline(p1, p2, p3, p4);
+            glm::vec3 pos = spline.evaluate3D(u);
+            std::cout << "u, dist: " << u << ", " << dist << std::endl;
+            return pos.z;
+        }
+        else {
+            return z2;
+        }
+    }
+    
     inline float get_height(const unsigned int x, const unsigned int y)
     {
-        unsigned int xa = x % width();
-        unsigned int ya = y % height();
+        unsigned int xa = floorf(x % width());
+        unsigned int ya = floorf(y % height());
         unsigned char r, g, b;
         get_pixel(xa, ya, r, g, b);
         return (r + g + b) / 765.0f;

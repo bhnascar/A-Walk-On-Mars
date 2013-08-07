@@ -76,8 +76,8 @@ Texture *Texture::GetNormalMap()
             // Some encoding necessary
             // Normal coordinates can be from -1 to 1
             // We need to change it to the range 0 to 1
-            vec3 x_dir = vec3(1, 0, 50 * dx);
-            vec3 y_dir = vec3(0, 1, 50 * dy);
+            vec3 x_dir = vec3(1, 0, 70 * dx);
+            vec3 y_dir = vec3(0, 1, 70 * dy);
             vec3 normal = normalize(cross(x_dir, y_dir)) / 2.0f;
             normal += vec3(0.5);
             
