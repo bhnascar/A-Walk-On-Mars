@@ -126,9 +126,9 @@ void main()
     final_color = ContrastSaturationBrightness(final_color, 1.0, 1.0, 1.6);
     gl_FragColor = vec4(final_color, 1.0);
     
-    // if (textured) {
-    //    gl_FragColor *= texture2D(texture, texturePosition);
-    //}
+    if (textured) {
+        gl_FragColor *= texture2D(texture, texturePosition);
+    }
     
     if (attenuate) {
         // Attenuation factor

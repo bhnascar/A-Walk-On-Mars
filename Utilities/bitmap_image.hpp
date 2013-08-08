@@ -190,20 +190,6 @@ public:
         // Lerp in y dir
         float zxf = (y2 > y1) ? (y - y1) * zx2 + (y2 - y) * zx1 : zx1;
         
-        std::cout << "x, y: " << x << ", " << y << std::endl;
-        std::cout << "x1, y1: " << x1 << ", " << y1 << std::endl;
-        std::cout << "x2, y2: " << x2 << ", " << y2 << std::endl;
-        std::cout << "z11: " << z11 << std::endl;
-        std::cout << "z21: " << z21 << std::endl;
-        std::cout << "z22: " << z22 << std::endl;
-        std::cout << "z12: " << z12 << std::endl;
-        std::cout << "zx1: " << zx1 << std::endl;
-        std::cout << "zx2: " << zx2 << std::endl;
-        std::cout << "zxf: " << zxf << std::endl;
-        std::cout << "u-y: " << (y - y1) << std::endl;
-        std::cout << "u-x: " << (x - x1) << std::endl;
-        std::cout << std::endl;
-        
         return zxf;
     }
     

@@ -7,40 +7,50 @@
 #include <GL/glut.h>
 #endif
 
+//#include "../Utilities/Oculus.h"
 #include "../Utilities/Program.h"
+#include "../Utilities/FBO.h"
 #include "../Utilities/Texture.h"
 #include "../Utilities/Noise.h"
 #include "../Utilities/OBJFile.h"
 #include "../Utilities/Model.h"
+#include "../Utilities/Screen.h"
+#include "../Utilities/bitmap_image.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
-
-#include "../Utilities/bitmap_image.hpp"
 
 /* Window */
 #define DEFAULT_WIN_WIDTH 1280
 #define DEFAULT_WIN_HEIGHT 880
 
 /* Navigation */
-#define WALKING_SPEED 0.0001f
+#define WALKING_SPEED 0.0005f
 #define LOOKING_SPEED 0.005f
 #define WALKING_HEIGHT 0.005f
 
 using namespace::glm;
 using namespace::std;
 
-static Program *program;
-static Texture *heightField;
-static Texture *normalMap;
-static Texture *noiseField;
-static Texture *sand;
+static Program *mainShader;
+static Program *distortionShader;
+static Program *screenQuadShader;
+
+static FBO *frameBuffer = NULL;
+
+static Texture *sceneTexture = NULL;
+static Texture *heightField = NULL;
+static Texture *normalMap = NULL;
+static Texture *noiseField = NULL;
+static Texture *sand = NULL;
 
 static int win_width;
 static int win_height;
 
 static mat4 projection;
+static mat4 leftProjection;
+static mat4 rightProjection;
 static mat4 view;
 
 static vec3 lightPos;
@@ -57,12 +67,11 @@ float theta, phi;
 Model *grid;
 Model *sphere;
 
-void display() {
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    
-    program->Use();
+Screen *screen;
+
+void render()
+{
+    mainShader->Use();
     
     mat4 model = mat4(1);
     view = glm::lookAt(eyePos,           // Eye
@@ -70,35 +79,68 @@ void display() {
                        eyeUp);           // Up
     
     mat4 MVP = projection * view * model;
-    program->SetUniform("MVP", MVP);
-    program->SetUniform("model", model);
-    program->SetUniform("baseColor", vec3(1.00, 0.55, 0.0));
+    mainShader->SetUniform("MVP", MVP);
+    mainShader->SetUniform("model", model);
+    mainShader->SetUniform("baseColor", vec3(1.00, 0.55, 0.0));
     
-    program->SetUniform("illum", 1);
-    program->SetUniform("attenuate", 1);
-    program->SetUniform("lightPosition", lightPos);
+    mainShader->SetUniform("illum", 1);
+    mainShader->SetUniform("attenuate", 1);
+    mainShader->SetUniform("lightPosition", lightPos);
     
-    program->SetUniform("displace", 1);
-    program->SetUniform("heightMap", heightField, GL_TEXTURE0);
-    program->SetUniform("normalMap", normalMap, GL_TEXTURE1);
-    program->SetUniform("sand", sand, GL_TEXTURE2);
+    mainShader->SetUniform("displace", 1);
+    mainShader->SetUniform("heightMap", heightField, GL_TEXTURE0);
+    mainShader->SetUniform("normalMap", normalMap, GL_TEXTURE1);
+    mainShader->SetUniform("sand", sand, GL_TEXTURE2);
     
-    program->SetUniform("textured", 1);
-    program->SetUniform("texture", noiseField, GL_TEXTURE2);
+    mainShader->SetUniform("textured", 1);
+    mainShader->SetUniform("texture", noiseField, GL_TEXTURE3);
     
-    grid->Draw(*program);
+    grid->Draw(*mainShader);
     
-    program->SetUniform("illum", 1);
-    program->SetUniform("lightPosition", lightPos);
-    program->SetUniform("baseColor", vec3(1.0, 0.80, 0.50));
+    mainShader->SetUniform("illum", 1);
+    mainShader->SetUniform("lightPosition", lightPos);
+    mainShader->SetUniform("baseColor", vec3(1.0, 0.80, 0.50));
     
-    program->SetUniform("attenuate", 1);
-    program->SetUniform("displace", 0);
-    program->SetUniform("textured", 0);
+    mainShader->SetUniform("attenuate", 1);
+    mainShader->SetUniform("displace", 0);
+    mainShader->SetUniform("textured", 0);
     
-    sphere->Draw(*program);
+    sphere->Draw(*mainShader);
     
-    program->Unuse();
+    mainShader->Unuse();
+}
+
+void display()
+{
+    frameBuffer->Use();
+    frameBuffer->SetColorTexture(sceneTexture, GL_COLOR_ATTACHMENT0);
+    frameBuffer->SetDrawTarget(GL_COLOR_ATTACHMENT0);
+    
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    /*
+    // Render left
+    glViewport(0, 0, win_width / 2, win_height);
+    projection = leftProjection;
+    render();
+    
+    // Render right
+    glViewport(win_width / 2, 0, win_width / 2, win_height);
+    projection = rightProjection;
+    render();
+     */
+    
+    frameBuffer->Unuse();
+    
+    //glClearColor(0.0, 0.0, 0.0, 1.0);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    screenQuadShader->Use();
+	screenQuadShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	screen->Draw(*screenQuadShader);
+	screenQuadShader->Unuse();
     
     glutSwapBuffers();
 }
@@ -110,6 +152,22 @@ void reshape(int w, int h) {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    // Resize framebuffer
+    if (frameBuffer) {
+        delete frameBuffer;
+    }
+    frameBuffer = new FBO(win_width, win_height);
+    
+    if (screen) {
+        delete screen;
+    }
+    screen = new Screen();
+    
+    if (sceneTexture) {
+        delete sceneTexture;
+    }
+    sceneTexture = new Texture(win_width, win_height, GL_RGBA);
+    
     // Resize viewport
     glViewport(0, 0, w, h);
     
@@ -119,6 +177,8 @@ void reshape(int w, int h) {
                                   ratio,        // Aspect ratio
                                   0.0001f,      // Near clipping plane
                                   100.0f);      // Far clipping plane
+    leftProjection = projection;
+    rightProjection = projection;
     glMatrixMode(GL_MODELVIEW);
     
     glutPostRedisplay();
@@ -214,7 +274,7 @@ void arrow_up(int key, int x, int y)
 
 void mouse(int x, int y)
 {
-    glutWarpPointer(win_width / 2, win_height / 2);
+    //glutWarpPointer(win_width / 2, win_height / 2);
     
     // Compute new orientation
     theta += LOOKING_SPEED * (win_width / 2 - x);
@@ -242,7 +302,6 @@ float fetchZ(float x, float y)
     x *= image->width();
     y *= image->height();
     
-    vec2 dir = normalize(vec2(eyeDir.x, eyeDir.y));
     float height = image->get_interpolated_height(x, y);
     
     return 0.1 * height + WALKING_HEIGHT;
@@ -258,13 +317,6 @@ void animate()
         eyePos += WALKING_SPEED * eyeLeft;
     if (mright)
         eyePos -= WALKING_SPEED * eyeLeft;
-    
-    if (aup)
-        eyePos.z -= 0.01;
-    if (adown)
-        eyePos.z += 0.01;
-    
-    cout << "(" << eyePos.x << ", " << eyePos.y << ")" << endl;
     eyePos.z = fetchZ(eyePos.x, eyePos.y);
     
     // Compute view vectorsw
@@ -279,7 +331,10 @@ void animate()
 void initGlobals()
 {
     srand((unsigned int)time(NULL));
-    program = new Program("Shaders/main.vert", "Shaders/main.frag");
+    
+    mainShader = new Program("Shaders/main.vert", "Shaders/main.frag");
+    distortionShader = new Program("Shaders/distort.vert", "Shaders/distort.frag");
+    screenQuadShader = new Program("Shaders/quad.vert", "Shaders/quad.frag");
     
     eyeOrientation = fquat();
     eyePos = vec3(0, 0, 0);
@@ -325,6 +380,9 @@ int main(int argc, char * argv[])
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     
+    // Oculus init
+    // Oculus::Init();
+    
 #ifdef __APPLE__
 	CGSetLocalEventsSuppressionInterval(0.0);
 #endif
@@ -332,6 +390,8 @@ int main(int argc, char * argv[])
     initGlobals();
     
     glutMainLoop();
+    
+    // Oculus::Clear();
     
     return 0;
 }
