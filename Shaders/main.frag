@@ -31,6 +31,7 @@
 #define ATTENUATION_DISTANCE 20
 
 uniform sampler2D texture;
+uniform sampler2D sand;
 
 uniform vec3 baseColor;
 
@@ -101,6 +102,12 @@ void main()
         vec3 L = normalize(lightPosition - vertexPosition);
         vec3 N = normalize(normalPosition);
         
+        if (textured) {
+            // Perturb normal
+            vec3 T = texture2D(sand, texturePosition).xyz;
+            N = normalize((2 * N + T) / length(2 * N + T));
+        }
+        
         // Calculate ambient
         vec3 ambient = ambientColor;
         
@@ -119,9 +126,9 @@ void main()
     final_color = ContrastSaturationBrightness(final_color, 1.0, 1.0, 1.6);
     gl_FragColor = vec4(final_color, 1.0);
     
-    if (textured) {
-        gl_FragColor *= texture2D(texture, texturePosition);
-    }
+    // if (textured) {
+    //    gl_FragColor *= texture2D(texture, texturePosition);
+    //}
     
     if (attenuate) {
         // Attenuation factor

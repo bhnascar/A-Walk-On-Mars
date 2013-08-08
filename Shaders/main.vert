@@ -45,14 +45,14 @@ void main()
         position += height * normalCoordinates;
         
         // Fix normal using normal map
-        normalPosition = texture2D(normalMap, textureCoordinates).xyz;
+        normalPosition = (model * texture2D(normalMap, textureCoordinates)).xyz;
     }
     else {
         normalPosition = (model * vec4(normalCoordinates, 1)).xyz;
     }
     
     // Pass interpolated vertex position and normals to shader
-    vertexPosition = (model * vec4(position, 1)).xyz;
+    vertexPosition = (vec4(position, 1)).xyz;
     
     // Pass interpolated texture position along
     texturePosition = textureCoordinates;

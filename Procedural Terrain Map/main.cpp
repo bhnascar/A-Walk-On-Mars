@@ -35,7 +35,7 @@ static Program *program;
 static Texture *heightField;
 static Texture *normalMap;
 static Texture *noiseField;
-static Texture *cracks;
+static Texture *sand;
 
 static int win_width;
 static int win_height;
@@ -81,6 +81,7 @@ void display() {
     program->SetUniform("displace", 1);
     program->SetUniform("heightMap", heightField, GL_TEXTURE0);
     program->SetUniform("normalMap", normalMap, GL_TEXTURE1);
+    program->SetUniform("sand", sand, GL_TEXTURE2);
     
     program->SetUniform("textured", 1);
     program->SetUniform("texture", noiseField, GL_TEXTURE2);
@@ -91,7 +92,7 @@ void display() {
     program->SetUniform("lightPosition", lightPos);
     program->SetUniform("baseColor", vec3(1.0, 0.80, 0.50));
     
-    program->SetUniform("attenuate", 0);
+    program->SetUniform("attenuate", 1);
     program->SetUniform("displace", 0);
     program->SetUniform("textured", 0);
     
@@ -242,7 +243,7 @@ float fetchZ(float x, float y)
     y *= image->height();
     
     vec2 dir = normalize(vec2(eyeDir.x, eyeDir.y));
-    float height = image->get_interpolated_height(x, y, 1.0, dir);
+    float height = image->get_interpolated_height(x, y);
     
     return 0.1 * height + WALKING_HEIGHT;
 }
@@ -263,9 +264,8 @@ void animate()
     if (adown)
         eyePos.z += 0.01;
     
-    eyePos.z = fetchZ(eyePos.x, eyePos.y);
-    
     cout << "(" << eyePos.x << ", " << eyePos.y << ")" << endl;
+    eyePos.z = fetchZ(eyePos.x, eyePos.y);
     
     // Compute view vectorsw
     quat orientation = normalize(eyeOrientation * fquat(vec3(phi, 0, theta)));
@@ -288,7 +288,7 @@ void initGlobals()
     eyeLeft = vec3(-1, 0, 0);
     lightPos = vec3(0.0, 0.0, 1.5);
     
-    cracks = new Texture("Textures/cracks.bmp");
+    sand = new Texture("Textures/sand.bmp");
     heightField = new Texture("Textures/mars.bmp");
     normalMap = heightField->GetNormalMap();
     noiseField = new Noise();
@@ -305,8 +305,7 @@ int main(int argc, char * argv[])
     // Glut init
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
-    //glutInitWindowSize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
-    glutInitWindowSize(600, 600);
+    glutInitWindowSize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
     
     glutCreateWindow("Procedural terrain demo");
     glutPositionWindow(0, 0);

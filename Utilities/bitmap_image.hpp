@@ -169,51 +169,48 @@ public:
       red   = data_[(y * row_increment_) + (x * bytes_per_pixel_ + 2)];
    }
     
-    inline float get_interpolated_height(const float x, const float y,
-                                         const float step,
-                                         glm::vec2 dir)
+    inline float get_interpolated_height(const float x, const float y)
     {
-        float x1 = floorf(x - step * dir.x);
-        float y1 = floorf(y - step * dir.y);
-        float z1 = get_height(x1, y1);
-        glm::vec3 p1(x1, y1, z1);
+        unsigned int x1 = floorf(x);
+        unsigned int y1 = floorf(y);
         
-        float x2 = ceilf(x);
-        float y2 = floorf(y);
-        float z2 = get_height(x2, y2);
-        glm::vec3 p2(x2, y2, z2);
+        unsigned int x2 = ceilf(x);
+        unsigned int y2 = ceilf(y);
         
-        float x3 = ceilf(x + step * dir.x);
-        float y3 = ceilf(y + step * dir.y);
-        float z3 = get_height(x3, y3);
-        glm::vec3 p3(x3, y3, z3);
+        // Get height at four surrounding corners
+        float z11 = get_height(x1, y1);
+        float z21 = get_height(x2, y1);
+        float z22 = get_height(x2, y2);
+        float z12 = get_height(x1, y2);
         
-        float x4 = floorf(x + 2 * step * dir.x);
-        float y4 = ceilf(y + 2 * step * dir.y);
-        float z4 = get_height(x4, y4);
-        glm::vec3 p4(x4, y4, z4);
+        // Lerp twice in x dir
+        float zx1 = (x2 > x1) ? (x - x1) * z21 + (x2 - x) * z11 : z11;
+        float zx2 = (x2 > x1) ? (x - x1) * z22 + (x2 - x) * z12 : z12;
         
-        float x5 = (x3 < x) ? x3 : x;
-        float y5 = (y3 < y) ? y3 : y;
-        float dist = sqrt(pow(x3 - x2, 2) + pow(y3 - y2, 2));
-        float gap = sqrt(pow(x5 - x2, 2) + pow(y5 - y2, 2));
+        // Lerp in y dir
+        float zxf = (y2 > y1) ? (y - y1) * zx2 + (y2 - y) * zx1 : zx1;
         
-        if (dist > 0.000000001) {
-            float u = gap / dist;
-            CMSpline spline(p1, p2, p3, p4);
-            glm::vec3 pos = spline.evaluate3D(u);
-            std::cout << "u, dist: " << u << ", " << dist << std::endl;
-            return pos.z;
-        }
-        else {
-            return z2;
-        }
+        std::cout << "x, y: " << x << ", " << y << std::endl;
+        std::cout << "x1, y1: " << x1 << ", " << y1 << std::endl;
+        std::cout << "x2, y2: " << x2 << ", " << y2 << std::endl;
+        std::cout << "z11: " << z11 << std::endl;
+        std::cout << "z21: " << z21 << std::endl;
+        std::cout << "z22: " << z22 << std::endl;
+        std::cout << "z12: " << z12 << std::endl;
+        std::cout << "zx1: " << zx1 << std::endl;
+        std::cout << "zx2: " << zx2 << std::endl;
+        std::cout << "zxf: " << zxf << std::endl;
+        std::cout << "u-y: " << (y - y1) << std::endl;
+        std::cout << "u-x: " << (x - x1) << std::endl;
+        std::cout << std::endl;
+        
+        return zxf;
     }
     
     inline float get_height(const unsigned int x, const unsigned int y)
     {
-        unsigned int xa = floorf(x % width());
-        unsigned int ya = floorf(y % height());
+        unsigned int xa = x % width();
+        unsigned int ya = y % height();
         unsigned char r, g, b;
         get_pixel(xa, ya, r, g, b);
         return (r + g + b) / 765.0f;
