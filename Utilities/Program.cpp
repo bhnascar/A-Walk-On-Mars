@@ -168,6 +168,11 @@ void Program::SetUniform(const char *name, const mat4& value) const
     glUniformMatrix4fv(id, 1, false, &value[0][0]);
 }
 
+void Program::Reset() const
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 /* We need an extra parameter for textures to specify
    which texture unit to bind our texture to. If we are
    using multiple textures, they must be bound to

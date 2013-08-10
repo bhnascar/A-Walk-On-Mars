@@ -14,7 +14,4 @@ void main()
     // Output vertex color from texture
     vec4 sceneColor = texture2D(scene, texturePosition);
     gl_FragColor = sceneColor;
-    if (sceneColor.x + sceneColor.y + sceneColor.z < 0.001) {
-        gl_FragColor = vec4(1.0);
-    }
 }

@@ -15,6 +15,7 @@ public:
     /** Use, unuse */
     void Use();
     void Unuse();
+    void CheckStatus();
     void SetDrawTarget(GLenum target);
     
     /** Set associated textures */
@@ -22,8 +23,7 @@ public:
     void SetDepthTexture(Texture *texture);
     void SetRenderBuffer(RenderBuffer *renderBuffer);
     
+    
 private:
     GLuint id;
-    
-    void CheckStatus();
 };

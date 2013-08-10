@@ -445,8 +445,8 @@
 				78C6392517AF35A50013C4F4 /* main.vert */,
 				7853461317B37F92008F7A52 /* distort.vert */,
 				7853461417B37FA0008F7A52 /* distort.frag */,
-				787C770817B3EC3E0064B738 /* quad.frag */,
 				787C770917B3EC3E0064B738 /* quad.vert */,
+				787C770817B3EC3E0064B738 /* quad.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";

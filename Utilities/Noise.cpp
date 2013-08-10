@@ -2,7 +2,7 @@
 
 /* Must be a power of 2 */
 #define ARR_SIZE 1024
-#define FEATURE_SIZE 1
+#define FEATURE_SIZE 256
 
 using namespace std;
 

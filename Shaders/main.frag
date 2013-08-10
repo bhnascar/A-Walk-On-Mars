@@ -32,6 +32,7 @@
 
 uniform sampler2D texture;
 uniform sampler2D sand;
+uniform sampler2D rock;
 
 uniform vec3 baseColor;
 
@@ -44,6 +45,9 @@ uniform bool illum;
 /* Textured? */
 uniform bool textured;
 
+/* Bump mapped? */
+uniform bool bumpMapped;
+
 /* Attenuate color based on distance? */
 uniform bool attenuate;
 
@@ -54,6 +58,8 @@ uniform vec3 lightPosition;
 varying vec3 vertexPosition;
 varying vec3 normalPosition;
 varying vec2 texturePosition;
+
+#define M_PI 3.14159265358979323846264
 
 vec4 Desaturate(vec3 color, float Desaturation)
 {
@@ -102,10 +108,20 @@ void main()
         vec3 L = normalize(lightPosition - vertexPosition);
         vec3 N = normalize(normalPosition);
         
-        if (textured) {
-            // Perturb normal
-            vec3 T = texture2D(sand, texturePosition).xyz;
+        // Perturb normal
+        if (bumpMapped)
+        {
+            vec3 T = texture2D(sand, texturePosition * 30.0).xyz;
             N = normalize((2 * N + T) / length(2 * N + T));
+            
+            float angle = abs(acos(dot(N, vec3(0.0, 0.0, 1.0))));
+            if (angle > M_PI / 4.0)
+            {
+                float weight = (angle - M_PI / 4.0) / (M_PI / 4.0);
+                
+                T = weight * 1.2 * texture2D(rock, texturePosition * 70).xyz;
+                N = normalize((2 * N + T) / length(2 * N + T));
+            }
         }
         
         // Calculate ambient
@@ -127,7 +143,7 @@ void main()
     gl_FragColor = vec4(final_color, 1.0);
     
     if (textured) {
-        gl_FragColor *= texture2D(texture, texturePosition);
+        gl_FragColor *= texture2D(texture, texturePosition * 50.0);
     }
     
     if (attenuate) {

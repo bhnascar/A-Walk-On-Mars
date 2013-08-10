@@ -30,7 +30,7 @@ float texHeight(float u, float v)
     vec2 texPos = vec2(mod(u, 1.0), mod(v, 1.0));
     vec4 color = texture2D(heightMap, texPos);
     float height = (color.x + color.y + color.z) / (3.0);
-    return 0.1 * height;
+    return 0.05 * height;
 }
 
 void main()

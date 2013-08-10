@@ -17,9 +17,6 @@ void FBO::Use()
     // Bind FBO
     glBindFramebuffer(GL_FRAMEBUFFER, id);
     
-    // Check status
-    // CheckStatus();
-    
     // Default: set draw buffer to Color Attachment 0
     GLenum target = GL_COLOR_ATTACHMENT0;
     glDrawBuffers(1, &target);
@@ -58,6 +55,7 @@ void FBO::CheckStatus()
     switch(status)
     {
         case GL_FRAMEBUFFER_COMPLETE:
+            cerr << "Framebuffer complete\n" << endl;
             break;
             
         case GL_FRAMEBUFFER_UNSUPPORTED:

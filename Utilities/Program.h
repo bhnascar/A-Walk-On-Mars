@@ -76,6 +76,7 @@ public:
     void SetMVP(const glm::mat4& mvp) const;
     
     /** Generic setters for uniforms */
+    void Reset() const;
     void SetUniform(const char *name, const GLint value) const;
     void SetUniform(const char *name, const GLfloat value) const;
     void SetUniform(const char *name, const glm::vec2& value) const;
