@@ -13,12 +13,8 @@
 		781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 781309501744BBBE000802B2 /* Cocoa.framework */; };
 		7813095B1744BC27000802B2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7813095A1744BC27000802B2 /* GLUT.framework */; };
 		7853466A17B38A89008F7A52 /* Oculus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7853466817B38A89008F7A52 /* Oculus.cpp */; };
-		7853467717B3918C008F7A52 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7853467617B3918C008F7A52 /* Carbon.framework */; };
-		7853467917B391C0008F7A52 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7853467817B391C0008F7A52 /* AudioToolbox.framework */; };
-		7853467B17B391C8008F7A52 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7853467A17B391C8008F7A52 /* CoreFoundation.framework */; };
-		7853467D17B391D0008F7A52 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7853467C17B391D0008F7A52 /* IOKit.framework */; };
-		7853467F17B391D7008F7A52 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7853467E17B391D7008F7A52 /* IOSurface.framework */; };
 		7853480817B39916008F7A52 /* libovr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 785346DC17B398E6008F7A52 /* libovr.a */; };
+		786F9F5917B612D20084DEB3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786F9F5817B612D20084DEB3 /* IOKit.framework */; };
 		787C771117B3ED9B0064B738 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 787C770F17B3ED9B0064B738 /* Screen.cpp */; };
 		78B7BF6517ACDFAA00AE36C0 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5417ACDFAA00AE36C0 /* Buffer.cpp */; };
 		78B7BF6617ACDFAA00AE36C0 /* FBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5717ACDFAA00AE36C0 /* FBO.cpp */; };
@@ -56,11 +52,6 @@
 		7853461417B37FA0008F7A52 /* distort.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = distort.frag; sourceTree = "<group>"; };
 		7853466817B38A89008F7A52 /* Oculus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Oculus.cpp; path = Utilities/Oculus.cpp; sourceTree = "<group>"; };
 		7853466917B38A89008F7A52 /* Oculus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Oculus.h; path = Utilities/Oculus.h; sourceTree = "<group>"; };
-		7853467617B3918C008F7A52 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = ../../../../../../../System/Library/Frameworks/Carbon.framework; sourceTree = "<group>"; };
-		7853467817B391C0008F7A52 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = ../../../../../../../System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<group>"; };
-		7853467A17B391C8008F7A52 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = ../../../../../../../System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<group>"; };
-		7853467C17B391D0008F7A52 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		7853467E17B391D7008F7A52 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = ../../../../../../../System/Library/Frameworks/IOSurface.framework; sourceTree = "<group>"; };
 		785346D717B398E6008F7A52 /* OVR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OVR.h; sourceTree = "<group>"; };
 		785346D817B398E6008F7A52 /* OVRVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OVRVersion.h; sourceTree = "<group>"; };
 		785346DC17B398E6008F7A52 /* libovr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libovr.a; sourceTree = "<group>"; };
@@ -353,6 +344,7 @@
 		7853480517B398E7008F7A52 /* Util_MagCalibration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util_MagCalibration.h; sourceTree = "<group>"; };
 		7853480617B398E7008F7A52 /* Util_Render_Stereo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Util_Render_Stereo.cpp; sourceTree = "<group>"; };
 		7853480717B398E7008F7A52 /* Util_Render_Stereo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util_Render_Stereo.h; sourceTree = "<group>"; };
+		786F9F5817B612D20084DEB3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		787C770817B3EC3E0064B738 /* quad.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.frag; sourceTree = "<group>"; };
 		787C770917B3EC3E0064B738 /* quad.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vert; sourceTree = "<group>"; };
 		787C770F17B3ED9B0064B738 /* Screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Screen.cpp; path = Utilities/Screen.cpp; sourceTree = "<group>"; };
@@ -386,11 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7853480817B39916008F7A52 /* libovr.a in Frameworks */,
-				7853467F17B391D7008F7A52 /* IOSurface.framework in Frameworks */,
-				7853467D17B391D0008F7A52 /* IOKit.framework in Frameworks */,
-				7853467B17B391C8008F7A52 /* CoreFoundation.framework in Frameworks */,
-				7853467917B391C0008F7A52 /* AudioToolbox.framework in Frameworks */,
-				7853467717B3918C008F7A52 /* Carbon.framework in Frameworks */,
+				786F9F5917B612D20084DEB3 /* IOKit.framework in Frameworks */,
 				7813095B1744BC27000802B2 /* GLUT.framework in Frameworks */,
 				7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */,
 				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
@@ -404,19 +392,11 @@
 		7813092D1744B235000802B2 = {
 			isa = PBXGroup;
 			children = (
-				7853467E17B391D7008F7A52 /* IOSurface.framework */,
-				7853467C17B391D0008F7A52 /* IOKit.framework */,
-				7853467A17B391C8008F7A52 /* CoreFoundation.framework */,
-				7853467817B391C0008F7A52 /* AudioToolbox.framework */,
-				7853467617B3918C008F7A52 /* Carbon.framework */,
-				7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */,
-				7813095A1744BC27000802B2 /* GLUT.framework */,
-				781309501744BBBE000802B2 /* Cocoa.framework */,
-				7813094E1744BBB6000802B2 /* OpenGL.framework */,
 				785346D517B398E6008F7A52 /* LibOVR */,
 				78B7BF6C17ACDFB600AE36C0 /* Utilities */,
 				78130C711744C7CD000802B2 /* Shaders */,
 				7813093B1744B235000802B2 /* Procedural Terrain Map */,
+				786F9F5717B612A90084DEB3 /* Frameworks */,
 				781309391744B235000802B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -860,6 +840,18 @@
 				7853480717B398E7008F7A52 /* Util_Render_Stereo.h */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		786F9F5717B612A90084DEB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				786F9F5817B612D20084DEB3 /* IOKit.framework */,
+				7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */,
+				7813095A1744BC27000802B2 /* GLUT.framework */,
+				781309501744BBBE000802B2 /* Cocoa.framework */,
+				7813094E1744BBB6000802B2 /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		78B7BF6C17ACDFB600AE36C0 /* Utilities */ = {

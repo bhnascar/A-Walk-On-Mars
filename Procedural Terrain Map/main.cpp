@@ -171,8 +171,7 @@ void display()
     
     frameBuffer->Unuse();
     
-    // Render from frame buffer to screen, with barrel distortion
-    // for Oculus
+    // Render from frame buffer to screen, with barrel distortion for Oculus
     screenQuadShader->Use();
 	screenQuadShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
     
@@ -465,7 +464,6 @@ int main(int argc, char * argv[])
     glutPassiveMotionFunc(mouse);
     
     // Enable the necessary goodies
-    glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     
