@@ -60,6 +60,9 @@ static mat4 rightProjection;
 static mat4 view;
 static mat4 leftView;
 static mat4 rightView;
+static mat4 distortionView;
+
+static mat4 TM;
 
 static vec3 lightPos;
 static vec3 eyePos;
@@ -67,6 +70,12 @@ static vec3 eyeDir;
 static vec3 eyeLeft;
 static vec3 eyeUp;
 static quat eyeOrientation;
+
+static vec2 lensCenter;
+static vec2 screenCenter;
+static vec2 scaleIn;
+static vec2 scaleOut;
+static vec4 hmdWarpParm;
 
 bool mforward, mleft, mright, mbackward;
 bool aleft, aright, aup, adown;
@@ -142,6 +151,106 @@ void updateView()
     }
 }
 
+void updateDistortionParams(bool left)
+{
+    Oculus::updateDistortionOffsetAndScale(win_width, win_height);
+    
+    // Compute distortion information
+    float vp_width = win_width / 2.0f;
+    float vp_height = win_height;
+    float ratio = vp_width / vp_height;
+    
+    float w = vp_width / win_width;
+    float h = vp_height / win_height;
+    float x = (left) ? 0 : 0.5;
+    float y = 0;
+    
+    DistortionConfig *distortion = Oculus::GetDistortionConfig();
+    
+    lensCenter = vec2(x + (w + distortion->XCenterOffset * 0.5f) * 0.5f, y + h * 0.5f);
+    screenCenter = vec2(x * 0.5f, y * 0.5f);
+    
+    float scaleFactor = 1.0f / distortion->Scale;
+    scaleOut = vec2((w / 2.0f) * scaleFactor, (h / 2.0f) * scaleFactor * ratio);
+    scaleIn = vec2((2.0f / w), (2.0f / h) / ratio);
+    
+    hmdWarpParm = vec4(distortion->K[0],
+                       distortion->K[2],
+                       distortion->K[2],
+                       distortion->K[3]);
+    
+    TM = mat4(vec4(w, 0, 0, x),
+              vec4(0, h, 0, y),
+              vec4(0, 0, 0, 0),
+              vec4(0, 0, 0, 1));
+    
+    distortionView = mat4(vec4(2, 0, 0, -1),
+                          vec4(0, 2, 0, -1),
+                          vec4(0, 0, 0, 0),
+                          vec4(0, 0, 0, 1));
+    
+    std::cout << "w: " << w << std::endl;
+    std::cout << "h: " << h << std::endl;
+    std::cout << "x: " << x << std::endl;
+    std::cout << "y: " << y << std::endl;
+    std::cout << "Distortion.scale: " << distortion->Scale << std::endl;
+    std::cout << "ScaleFactor: " << scaleFactor << std::endl;
+    std::cout << "WindowWidth: " << win_width << std::endl;
+    std::cout << "WindowHeight: " << win_height << std::endl;
+    std::cout << std::endl;
+}
+
+// Render from frame buffer to screen, with barrel distortion for Oculus
+void barrelDistort()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    distortionShader->Use();
+    distortionShader->Reset();
+    
+    // Render left
+    updateDistortionParams(true);
+    distortionShader->SetUniform("view", mat4(1));
+    distortionShader->SetUniform("TM", TM);
+    distortionShader->SetUniform("Scale", scaleOut);
+    distortionShader->SetUniform("ScaleIn", scaleIn);
+    distortionShader->SetUniform("LensCenter", lensCenter);
+    distortionShader->SetUniform("ScreenCenter", screenCenter);
+    distortionShader->SetUniform("HmdWarpParam", hmdWarpParm);
+    distortionShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
+    
+    glViewport(0, 0, win_width / 2.0, win_height);
+    screen->Draw(*distortionShader);
+    /*
+    // Render right
+    updateDistortionParams(false);
+    distortionShader->SetUniform("view", mat4(1));
+    distortionShader->SetUniform("TM", TM);
+    distortionShader->SetUniform("Scale", scaleOut);
+    distortionShader->SetUniform("ScaleIn", scaleIn);
+    distortionShader->SetUniform("LensCenter", lensCenter);
+    distortionShader->SetUniform("ScreenCenter", screenCenter);
+    distortionShader->SetUniform("HmdWarpParam", hmdWarpParm);
+    distortionShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
+    
+    glViewport(win_width / 2.0, 0, win_width / 2.0, win_height);
+    screen->Draw(*distortionShader);
+    
+    distortionShader->Unuse();
+    */
+    /*
+    screenQuadShader->Use();
+    screenQuadShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, win_width, win_height);
+    screen->Draw(*screenQuadShader);
+
+    screenQuadShader->Unuse();
+     */
+    
+}
+
 void display()
 {
     // cout << "eyeDir: (" << eyeDir.x << ", " << eyeDir.y << ", " << eyeDir.z << ")" << endl;
@@ -171,15 +280,7 @@ void display()
     
     frameBuffer->Unuse();
     
-    // Render from frame buffer to screen, with barrel distortion for Oculus
-    screenQuadShader->Use();
-	screenQuadShader->SetUniform("scene", sceneTexture, GL_TEXTURE0);
-    
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, win_width, win_height);
-	screen->Draw(*screenQuadShader);
-    
-	screenQuadShader->Unuse();
+    barrelDistort();
      
     glutSwapBuffers();
 }
@@ -242,7 +343,7 @@ void reshape(int w, int h)
         // Compute Aspect Ratio. Stereo mode cuts width in half.
         float ratio = (float)(win_width * 0.5f) / win_height;
         
-        projection = glm::perspective(80.0f,        // Field of view
+        projection = glm::perspective(85.0f,        // Field of view
                                       ratio,        // Aspect ratio
                                       0.0001f,      // Near clipping plane
                                       100.0f);      // Far clipping plane
