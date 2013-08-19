@@ -1,0 +1,110 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.0.1270)
+
+newmtl default#1
+kd 0.4 0.4 0.4
+ka 1.29804 1.29804 1.29804
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn10SG
+kd 0.937255 0.937255 0.556863
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn12SG
+kd 0 0 0
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+map_kd TEXTURE_.TIF
+
+newmtl blinn1SG
+kd 0.768627 0.529412 0.0588235
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn2SG
+kd 0.266667 0.266667 0.266667
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn3SG
+kd 0.678431 0.678431 0.678431
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn4SG
+kd 0.74902 0.74902 0.74902
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn5SG
+kd 0 0 0
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+map_kd BOOSTER3.TIF
+
+newmtl blinn6SG
+kd 0.0470588 0.0470588 0.0470588
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn7SG
+kd 1 1 1
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl blinn8SG
+kd 0 0 0
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+map_kd TEXTUREA.TIF
+
+newmtl blinn9SG
+kd 0.639216 0.317647 0.0196078
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
+newmtl initialShadingGr
+kd 0.498039 0.498039 0.498039
+ka 1 1 1
+ks 1 1 1
+d 1
+Ns 59
+illum 2
+
