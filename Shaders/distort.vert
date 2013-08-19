@@ -1,3 +1,7 @@
+/* Vertex shader for barrel distortion to cancel out pincushion
+   effect of Oculus lens */
+
+/* Specifies GLSL version 1.10 - corresponds to OpenGL 2.0 */
 #version 120
 
 uniform mat4 view;

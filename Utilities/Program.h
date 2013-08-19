@@ -36,6 +36,10 @@ public:
 private:
     Shader() : id(-1) {}
     
+    /** Reads shader source from file to string. Includes
+     recursive method to find all includes. AW YEAH. */
+    const GLchar *LoadSource(const std::string& filename);
+    
     /** id used by OpenGL. */
     GLint id;
 };

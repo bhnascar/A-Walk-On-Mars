@@ -4,22 +4,22 @@ using namespace::std;
 using namespace::glm;
 
 const static GLfloat QUAD_COORDS[] = {
-    -1.0f, -1.0f, 0.0f,
-    -1.0f,  1.0f, 0.0f,
-    1.0f,  1.0f, 0.0f,
-    1.0f, -1.0f, 0.0f,
+    0.0f,  1.0f, 0.0f, // 0
+    1.0f,  1.0f, 0.0f, // 1
+    0.0f, 0.0f, 0.0f,  // 2
+    1.0f, 0.0f, 0.0f,  // 3
 };
 
 const static GLuint QUAD_TEX[] = {
     0, 0,
+    1, 0,
     0, 1,
-    1, 1,
-    1, 0
+    1, 1
 };
 
 const static GLubyte QUAD_INDICES[] = {
-    0, 2, 1,
-    2, 0, 3
+    2, 1, 0,
+    1, 2, 3
 };
 
 Screen::Screen()

@@ -12,18 +12,10 @@ using namespace glm;
 Shader::Shader(GLenum type, const std::string& filename)
     : id(-1)
 {
-    // Create input file stream
-    ifstream file_in(filename.c_str());
-    if (!file_in) {
-        cerr << "Failed to open shader file " << filename << endl;
+    const GLchar *source = LoadSource(filename);
+    if (!source) {
         return;
     }
-    
-    // Create string stream
-    stringstream file_string;
-    file_string << file_in.rdbuf();
-    string source_string = file_string.str();
-    const GLchar *source = source_string.c_str();
     
     // Create (compiles) shader
     id = glCreateShader(type);
@@ -47,6 +39,50 @@ Shader::Shader(GLenum type, const std::string& filename)
         id = -1;
         return;
     }
+}
+
+const GLchar *Shader::LoadSource(const std::string& filename)
+{
+    // Create input file stream
+    ifstream file_in(filename.c_str());
+    if (!file_in) {
+        cerr << "Failed to open shader file " << filename << endl;
+        return NULL;
+    }
+    
+    // Create string stream
+    stringstream file_string;
+    file_string << file_in.rdbuf();
+    
+    string source_string = "";
+    GLchar buf[1000];
+    while (!file_string.eof()) {
+        file_string.getline(buf, 1000);
+        
+        // Check for #include statements
+        GLchar include[100];
+        if (sscanf(buf, "#include \"%999[^\"]s\"%*s", include) > 0)
+        {
+            string path = filename.substr(0, filename.rfind('/') + 1) + include;
+            const GLchar *dependency = LoadSource(path);
+            if (dependency) {
+                source_string += dependency;
+            }
+            else {
+                cerr << "Could open shader file " << include << ", needed by " << filename << endl;
+                return NULL;
+            }
+        }
+        else {
+            source_string += string(buf);
+            source_string += '\n';
+        }
+    }
+
+    GLchar *source = new GLchar[source_string.length() + 1];
+    strcpy(source, source_string.c_str());
+    
+    return source;
 }
 
 Program::Program(const Shader& vertexShader, const Shader& fragmentShader)

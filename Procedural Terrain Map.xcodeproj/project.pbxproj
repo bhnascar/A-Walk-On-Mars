@@ -15,6 +15,7 @@
 		7853466A17B38A89008F7A52 /* Oculus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7853466817B38A89008F7A52 /* Oculus.cpp */; };
 		7853480817B39916008F7A52 /* libovr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 785346DC17B398E6008F7A52 /* libovr.a */; };
 		786F9F5917B612D20084DEB3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786F9F5817B612D20084DEB3 /* IOKit.framework */; };
+		787C075917C0A83000807247 /* filters.frag in Sources */ = {isa = PBXBuildFile; fileRef = 787C075817C0A83000807247 /* filters.frag */; };
 		787C771117B3ED9B0064B738 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 787C770F17B3ED9B0064B738 /* Screen.cpp */; };
 		78B7BF6517ACDFAA00AE36C0 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5417ACDFAA00AE36C0 /* Buffer.cpp */; };
 		78B7BF6617ACDFAA00AE36C0 /* FBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5717ACDFAA00AE36C0 /* FBO.cpp */; };
@@ -345,6 +346,7 @@
 		7853480617B398E7008F7A52 /* Util_Render_Stereo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Util_Render_Stereo.cpp; sourceTree = "<group>"; };
 		7853480717B398E7008F7A52 /* Util_Render_Stereo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util_Render_Stereo.h; sourceTree = "<group>"; };
 		786F9F5817B612D20084DEB3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		787C075817C0A83000807247 /* filters.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = filters.frag; sourceTree = "<group>"; };
 		787C770817B3EC3E0064B738 /* quad.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.frag; sourceTree = "<group>"; };
 		787C770917B3EC3E0064B738 /* quad.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vert; sourceTree = "<group>"; };
 		787C770F17B3ED9B0064B738 /* Screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Screen.cpp; path = Utilities/Screen.cpp; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 		78C6392517AF35A50013C4F4 /* main.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = main.vert; sourceTree = "<group>"; };
 		78CAFC8917AD70A900361A5C /* Noise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Noise.cpp; path = Utilities/Noise.cpp; sourceTree = "<group>"; };
 		78CAFC8A17AD70A900361A5C /* Noise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Noise.h; path = Utilities/Noise.h; sourceTree = "<group>"; };
+		78F70E9017C20864005D01E0 /* distort2.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = distort2.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,8 +428,10 @@
 				78C6392517AF35A50013C4F4 /* main.vert */,
 				7853461317B37F92008F7A52 /* distort.vert */,
 				7853461417B37FA0008F7A52 /* distort.frag */,
+				78F70E9017C20864005D01E0 /* distort2.frag */,
 				787C770917B3EC3E0064B738 /* quad.vert */,
 				787C770817B3EC3E0064B738 /* quad.frag */,
+				787C075817C0A83000807247 /* filters.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -946,6 +951,7 @@
 				78CAFC8B17AD70A900361A5C /* Noise.cpp in Sources */,
 				7853466A17B38A89008F7A52 /* Oculus.cpp in Sources */,
 				787C771117B3ED9B0064B738 /* Screen.cpp in Sources */,
+				787C075917C0A83000807247 /* filters.frag in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
