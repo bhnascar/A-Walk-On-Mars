@@ -87,7 +87,7 @@ Texture *Texture::GetNormalMap()
             image->set_pixel(x, y, r, g, b);
         }
     }
-    image->save_image("normals.bmp");
+    image->save_image("Textures/normals.bmp");
     return new Texture(image);
 }
 

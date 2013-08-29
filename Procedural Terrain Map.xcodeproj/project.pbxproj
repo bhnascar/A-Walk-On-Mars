@@ -15,7 +15,6 @@
 		7853466A17B38A89008F7A52 /* Oculus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7853466817B38A89008F7A52 /* Oculus.cpp */; };
 		7853480817B39916008F7A52 /* libovr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 785346DC17B398E6008F7A52 /* libovr.a */; };
 		786F9F5917B612D20084DEB3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 786F9F5817B612D20084DEB3 /* IOKit.framework */; };
-		787C075917C0A83000807247 /* filters.frag in Sources */ = {isa = PBXBuildFile; fileRef = 787C075817C0A83000807247 /* filters.frag */; };
 		787C771117B3ED9B0064B738 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 787C770F17B3ED9B0064B738 /* Screen.cpp */; };
 		78B7BF6517ACDFAA00AE36C0 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5417ACDFAA00AE36C0 /* Buffer.cpp */; };
 		78B7BF6617ACDFAA00AE36C0 /* FBO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF5717ACDFAA00AE36C0 /* FBO.cpp */; };
@@ -25,6 +24,13 @@
 		78B7BF6A17ACDFAA00AE36C0 /* RenderBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF6017ACDFAA00AE36C0 /* RenderBuffer.cpp */; };
 		78B7BF6B17ACDFAA00AE36C0 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF6217ACDFAA00AE36C0 /* Texture.cpp */; };
 		78CAFC8B17AD70A900361A5C /* Noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78CAFC8917AD70A900361A5C /* Noise.cpp */; };
+		78D6E35617CF8E070064AA13 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D6E35417CF8E070064AA13 /* ParticleSystem.cpp */; };
+		78D6E36017CF978B0064AA13 /* libboost_timer-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */; };
+		78D6E36117CF978B0064AA13 /* libboost_timer-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */; };
+		78D6E36217CF978B0064AA13 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */; };
+		78D6E36317CF978B0064AA13 /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */; };
+		78D6E36417CF978B0064AA13 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */; };
+		78D6E36517CF978B0064AA13 /* libboost_thread-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */; };
 		78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -372,6 +378,16 @@
 		78C6392517AF35A50013C4F4 /* main.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = main.vert; sourceTree = "<group>"; };
 		78CAFC8917AD70A900361A5C /* Noise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Noise.cpp; path = Utilities/Noise.cpp; sourceTree = "<group>"; };
 		78CAFC8A17AD70A900361A5C /* Noise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Noise.h; path = Utilities/Noise.h; sourceTree = "<group>"; };
+		78D6E35417CF8E070064AA13 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParticleSystem.cpp; path = Utilities/ParticleSystem.cpp; sourceTree = "<group>"; };
+		78D6E35517CF8E070064AA13 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleSystem.h; path = Utilities/ParticleSystem.h; sourceTree = "<group>"; };
+		78D6E35717CF8FEC0064AA13 /* particles.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particles.frag; sourceTree = "<group>"; };
+		78D6E35817CF8FEC0064AA13 /* particles.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particles.vert; sourceTree = "<group>"; };
+		78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_timer-mt.a"; sourceTree = "<group>"; };
+		78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_timer-mt.dylib"; sourceTree = "<group>"; };
+		78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_system-mt.a"; sourceTree = "<group>"; };
+		78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_system-mt.dylib"; sourceTree = "<group>"; };
+		78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_thread-mt.a"; sourceTree = "<group>"; };
+		78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_thread-mt.dylib"; sourceTree = "<group>"; };
 		78F70E9017C20864005D01E0 /* distort2.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = distort2.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -386,6 +402,12 @@
 				7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */,
 				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
 				78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */,
+				78D6E36017CF978B0064AA13 /* libboost_timer-mt.a in Frameworks */,
+				78D6E36117CF978B0064AA13 /* libboost_timer-mt.dylib in Frameworks */,
+				78D6E36217CF978B0064AA13 /* libboost_system-mt.a in Frameworks */,
+				78D6E36317CF978B0064AA13 /* libboost_system-mt.dylib in Frameworks */,
+				78D6E36417CF978B0064AA13 /* libboost_thread-mt.a in Frameworks */,
+				78D6E36517CF978B0064AA13 /* libboost_thread-mt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +417,7 @@
 		7813092D1744B235000802B2 = {
 			isa = PBXGroup;
 			children = (
+				78D6E35917CF97810064AA13 /* Boost */,
 				785346D517B398E6008F7A52 /* LibOVR */,
 				78B7BF6C17ACDFB600AE36C0 /* Utilities */,
 				78130C711744C7CD000802B2 /* Shaders */,
@@ -432,6 +455,8 @@
 				787C770917B3EC3E0064B738 /* quad.vert */,
 				787C770817B3EC3E0064B738 /* quad.frag */,
 				787C075817C0A83000807247 /* filters.frag */,
+				78D6E35717CF8FEC0064AA13 /* particles.frag */,
+				78D6E35817CF8FEC0064AA13 /* particles.vert */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -865,6 +890,8 @@
 				78B7BF5117ACDFAA00AE36C0 /* bitmap_image.hpp */,
 				78B7BF5417ACDFAA00AE36C0 /* Buffer.cpp */,
 				78B7BF5517ACDFAA00AE36C0 /* Buffer.h */,
+				78D6E35417CF8E070064AA13 /* ParticleSystem.cpp */,
+				78D6E35517CF8E070064AA13 /* ParticleSystem.h */,
 				78B7BF5617ACDFAA00AE36C0 /* CMSpline.hpp */,
 				78B7BF5717ACDFAA00AE36C0 /* FBO.cpp */,
 				78B7BF5817ACDFAA00AE36C0 /* FBO.h */,
@@ -887,6 +914,19 @@
 				7853466917B38A89008F7A52 /* Oculus.h */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		78D6E35917CF97810064AA13 /* Boost */ = {
+			isa = PBXGroup;
+			children = (
+				78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */,
+				78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */,
+				78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */,
+				78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */,
+				78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */,
+				78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */,
+			);
+			name = Boost;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -951,7 +991,7 @@
 				78CAFC8B17AD70A900361A5C /* Noise.cpp in Sources */,
 				7853466A17B38A89008F7A52 /* Oculus.cpp in Sources */,
 				787C771117B3ED9B0064B738 /* Screen.cpp in Sources */,
-				787C075917C0A83000807247 /* filters.frag in Sources */,
+				78D6E35617CF8E070064AA13 /* ParticleSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1082,7 @@
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/LibOVR_With_Samples.build/Debug/ovr.build/Objects-normal/x86_64\"",
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/LibOVR_With_Samples.build/Debug/ovr.build/Objects-normal/i386\"",
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/Release\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = NO;
@@ -1075,6 +1116,7 @@
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/LibOVR_With_Samples.build/Debug/ovr.build/Objects-normal/x86_64\"",
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/LibOVR_With_Samples.build/Debug/ovr.build/Objects-normal/i386\"",
 					"\"$(SRCROOT)/LibOVR/Lib/MacOS/Release\"",
+					"\"$(SRCROOT)\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CPLUSPLUSFLAGS = (

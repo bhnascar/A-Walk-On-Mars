@@ -16,17 +16,20 @@
 #include "../Utilities/Model.h"
 #include "../Utilities/Screen.h"
 #include "../Utilities/bitmap_image.hpp"
+#include "../Utilities/ParticleSystem.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+
+#include <boost/timer/timer.hpp>
 
 /* Window */
 #define DEFAULT_WIN_WIDTH 1280
 #define DEFAULT_WIN_HEIGHT 880
 
 /* Navigation */
-#define WALKING_SPEED 0.0005f
+#define WALKING_SPEED 0.05f
 #define LOOKING_SPEED 0.005f
 #define WALKING_HEIGHT 0.005f
 
@@ -37,9 +40,16 @@ using namespace::glm;
 using namespace::std;
 using namespace::OVR::Util::Render;
 
+using boost::timer::cpu_timer;
+using boost::timer::cpu_times;
+
+boost::timer::cpu_timer *timer;
+boost::timer::cpu_times times;
+
 static Program *mainShader;
 static Program *distortionShader;
 static Program *screenQuadShader;
+static Program *particleShader;
 
 static FBO *frameBuffer;
 
@@ -85,6 +95,7 @@ float theta, phi;
 
 Model *grid;
 Model *sphere;
+ParticleSystem *particle_sys;
 
 Screen *screen;
 
@@ -132,6 +143,32 @@ void render()
     sphere->Draw(*mainShader);
     
     mainShader->Unuse();
+}
+
+void ParticleSystemRender()
+{
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glViewport(0, 0, win_width, win_height);
+    float ratio = (float)win_width / win_height;
+    projection = glm::perspective(75.0f,        // Field of view
+                                  ratio,        // Aspect ratio
+                                  0.0001f,      // Near clipping plane
+                                  100.0f);      // Far clipping plane
+    
+    particleShader->Use();
+    particleShader->Reset();
+    
+    mat4 model = mat4(1);
+    mat4 MVP = projection * view * model;
+    
+    particleShader->SetUniform("MVP", MVP);
+    particleShader->SetUniform("base_color", vec3(1.0, 0.0, 0.0));
+    
+    particle_sys->Draw(*particleShader, projection * view, eyePos, eyeOrientation);
+    
+    particleShader->Unuse();
 }
 
 void updateView()
@@ -239,6 +276,7 @@ void barrelDistort()
 
 void display()
 {
+    /*
     // First we fix the view matrices
     updateView();
     
@@ -267,7 +305,11 @@ void display()
     // Render to screen from texture in the framebuffer,
     // with fixing for distortion and chromatic aberration
     barrelDistort();
-     
+     */
+    
+    // DEBUG:
+    ParticleSystemRender();
+    
     glutSwapBuffers();
 }
 
@@ -311,7 +353,7 @@ void reshape(int w, int h)
         projection = glm::perspective(FOV_degrees,  // Field of view
                                       ratio,        // Aspect ratio
                                       0.0001f,      // Near clipping plane
-                                      100.0f);      // Far clipping plane
+                                      1000.0f);      // Far clipping plane
         
         // Post-projection viewport coordinates range from (-1.0, 1.0), with the
         // center of the left viewport falling at (1/4) of horizontal screen size.
@@ -332,16 +374,16 @@ void reshape(int w, int h)
         projection = glm::perspective(85.0f,        // Field of view
                                       ratio,        // Aspect ratio
                                       0.0001f,      // Near clipping plane
-                                      100.0f);      // Far clipping plane
+                                      1000.0f);      // Far clipping plane
         
         leftProjection = projection;
         rightProjection = projection;
     }
     
     Oculus::UpdateStereoConfig(win_width, win_height);
-
+     
     glMatrixMode(GL_MODELVIEW);
-    
+
     glutPostRedisplay();
 }
 
@@ -477,6 +519,20 @@ float fetchZ(float x, float y)
     return 0.05 * height + WALKING_HEIGHT;
 }
 
+void ParticleSystemUpdate()
+{
+    eyeDir = normalize(eyeOrientation * vec3(0, 0, -1));
+    eyeUp = normalize(eyeOrientation * vec3(0, 1, 0));
+    eyeLeft = normalize(eyeOrientation * vec3(-1, 0, 0));
+    
+    // Update particle system
+    times = timer->elapsed();
+    float elapsedSeconds = (float)times.wall / pow(10.f, 9.f);
+    particle_sys->Update(elapsedSeconds);
+    
+    eyeOrientation = normalize(fquat(vec3(phi, 0, theta)));
+}
+
 void animate()
 {
     if (mforward)
@@ -487,16 +543,24 @@ void animate()
         eyePos += WALKING_SPEED * eyeLeft;
     if (mright)
         eyePos -= WALKING_SPEED * eyeLeft;
-    eyePos.z = fetchZ(eyePos.x, eyePos.y);
+    
+    //eyePos.z = fetchZ(eyePos.x, eyePos.y);
+    
+    cout << "eyePos: " << eyePos.x << ", " << eyePos.y << ", " << eyePos.z << endl;
     
     // Compute view vectorsw
-    fquat orientation = normalize(fquat(vec3(phi, 0, theta)));
+    /*
+    eyeOrientation = normalize(fquat(vec3(0, 0, theta)));
     if (Oculus::IsInfoLoaded()) {
-        orientation = normalize(Oculus::GetOrientation() * orientation);
+        eyeOrientation = normalize(Oculus::GetOrientation() * eyeOrientation);
     }
-    eyeUp = normalize(orientation * vec3(0, 0, 1));
-    eyeDir = normalize(orientation * vec3(0, 1, 0));
-    eyeLeft = normalize(orientation * vec3(-1, 0, 0));
+    
+    eyeUp = normalize(eyeOrientation * vec3(0, 0, 1));
+    eyeDir = normalize(eyeOrientation * vec3(0, 1, 0));
+    eyeLeft = normalize(eyeOrientation * vec3(-1, 0, 0));
+     */
+    
+    ParticleSystemUpdate();
     
     glutPostRedisplay();
 }
@@ -508,12 +572,22 @@ void initGlobals()
     mainShader = new Program("Shaders/main.vert", "Shaders/main.frag");
     distortionShader = new Program("Shaders/distort.vert", "Shaders/distort2.frag");
     screenQuadShader = new Program("Shaders/quad.vert", "Shaders/quad.frag");
+    particleShader = new Program("Shaders/particles.vert", "Shaders/particles.frag");
     
     eyeOrientation = fquat();
+    
+    /*
     eyePos = vec3(0, 0, 0);
     eyeUp = vec3(0, 0, 1);
     eyeDir = vec3(0, 1, 0);
     eyeLeft = vec3(-1, 0, 0);
+    */
+    
+    eyePos = vec3(0, 0, 1000);
+    eyeDir = vec3(0, 0, -1);
+    eyeUp = vec3(0, 1, 0);
+    eyeLeft = vec3(-1, 0, 0);
+    
     lightPos = vec3(0.0, 0.0, 1.5);
     
     rock = new Texture("Textures/rock.bmp");
@@ -522,6 +596,14 @@ void initGlobals()
     normalMap = heightField->GetNormalMap();
     noiseField = new Noise();
     
+    particle_sys = new ParticleSystem();
+    particle_sys->AddFluidCluster(vec3(0, 0, 0),
+                                  vec3(0, 0, 0),
+                                  vec3(237.0f / 255.0f, 201 / 255.0f, 175 / 255.0f));
+    
+    timer = new cpu_timer();
+    
+    /*
     OBJFile obj("Models/grid.obj");
     grid = obj.GenModel();
     
@@ -529,6 +611,7 @@ void initGlobals()
     sphere = sph.GenModel();
     
     screen = new Screen();
+     */
 }
 
 int main(int argc, char * argv[])
@@ -536,11 +619,10 @@ int main(int argc, char * argv[])
     // Glut init
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
-    
     glutInitWindowSize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
-    glutCreateWindow("Procedural terrain demo");
+    glutCreateWindow("Mars Oculus demo");
     glutPositionWindow(0, 0);
-    glutFullScreen();
+    //glutFullScreen();
     
     // Register callback functions
     glutDisplayFunc(display);
@@ -553,6 +635,7 @@ int main(int argc, char * argv[])
     glutPassiveMotionFunc(mouse);
     
     // Enable the necessary goodies
+    glEnable(GL_MULTISAMPLE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     

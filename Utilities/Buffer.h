@@ -92,6 +92,9 @@ public:
 		const ElementArrayBuffer& elementBuffer);
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
 		GLsizei count);
+    ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
+        const ArrayBuffer<glm::vec2>& textureBuffer,
+        GLsizei count);
 
 	void Draw(const Program& p, GLenum mode) const;
     void Delete();

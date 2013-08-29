@@ -213,6 +213,15 @@ ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
 {
 }
 
+ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
+            const ArrayBuffer<glm::vec2>& textureBuffer,
+            GLsizei count)
+    : vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
+    , hasNormalBuffer(false), hasIndexBuffer(false), valid(true)
+    , hasTextureBuffer(true)
+{
+}
+
 void ModelBuffer::Delete() {
     vertexBuffer.Delete();
     if (hasTextureBuffer)
