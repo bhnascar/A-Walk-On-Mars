@@ -230,7 +230,7 @@ void Program::SetUniform(const char *name, Texture *texture, GLenum unit) const
 GLint Program::GetAttribLocation(const char *name) const {
     GLint location = glGetAttribLocation(id, name);
     if (location < 0) {
-        cout << "Attribute " << name << " not found." << endl;
+        // cout << "Attribute " << name << " not found." << endl;
     }
     return location;
 }
@@ -239,7 +239,7 @@ GLint Program::GetUniformLocation(const char *name) const
 {
     GLint location = glGetUniformLocation(id, name);
     if (location < 0) {
-        cout << "Uniform " << name << " not found." << endl;
+        // cout << "Uniform " << name << " not found." << endl;
     }
     return location;
 }

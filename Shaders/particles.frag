@@ -22,5 +22,5 @@ void main() {
     final_color *= (max_age - age) / max_age;
     final_color = clamp(final_color, 0.0, 0.1);
     
-    gl_FragColor = vec4(1.0);
+    gl_FragColor = final_color;
 }

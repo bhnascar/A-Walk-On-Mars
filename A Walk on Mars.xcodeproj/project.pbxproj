@@ -25,12 +25,6 @@
 		78B7BF6B17ACDFAA00AE36C0 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78B7BF6217ACDFAA00AE36C0 /* Texture.cpp */; };
 		78CAFC8B17AD70A900361A5C /* Noise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78CAFC8917AD70A900361A5C /* Noise.cpp */; };
 		78D6E35617CF8E070064AA13 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D6E35417CF8E070064AA13 /* ParticleSystem.cpp */; };
-		78D6E36017CF978B0064AA13 /* libboost_timer-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */; };
-		78D6E36117CF978B0064AA13 /* libboost_timer-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */; };
-		78D6E36217CF978B0064AA13 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */; };
-		78D6E36317CF978B0064AA13 /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */; };
-		78D6E36417CF978B0064AA13 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */; };
-		78D6E36517CF978B0064AA13 /* libboost_thread-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */; };
 		78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7848BF0317A8C7250052F1B7 /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,7 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		781309381744B235000802B2 /* Procedural Terrain Map */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Procedural Terrain Map"; sourceTree = BUILT_PRODUCTS_DIR; };
+		781309381744B235000802B2 /* A Walk on Mars */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "A Walk on Mars"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7813093C1744B236000802B2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7813093E1744B236000802B2 /* Procedural_Terrain_Map.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Procedural_Terrain_Map.1; sourceTree = "<group>"; };
 		7813094E1744BBB6000802B2 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -382,12 +376,6 @@
 		78D6E35517CF8E070064AA13 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParticleSystem.h; path = Utilities/ParticleSystem.h; sourceTree = "<group>"; };
 		78D6E35717CF8FEC0064AA13 /* particles.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particles.frag; sourceTree = "<group>"; };
 		78D6E35817CF8FEC0064AA13 /* particles.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = particles.vert; sourceTree = "<group>"; };
-		78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_timer-mt.a"; sourceTree = "<group>"; };
-		78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_timer-mt.dylib"; sourceTree = "<group>"; };
-		78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_system-mt.a"; sourceTree = "<group>"; };
-		78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_system-mt.dylib"; sourceTree = "<group>"; };
-		78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libboost_thread-mt.a"; sourceTree = "<group>"; };
-		78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libboost_thread-mt.dylib"; sourceTree = "<group>"; };
 		78F70E9017C20864005D01E0 /* distort2.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = distort2.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -402,12 +390,6 @@
 				7813094F1744BBB6000802B2 /* OpenGL.framework in Frameworks */,
 				781309511744BBBE000802B2 /* Cocoa.framework in Frameworks */,
 				78F5A71117A8CA350014E802 /* ApplicationServices.framework in Frameworks */,
-				78D6E36017CF978B0064AA13 /* libboost_timer-mt.a in Frameworks */,
-				78D6E36117CF978B0064AA13 /* libboost_timer-mt.dylib in Frameworks */,
-				78D6E36217CF978B0064AA13 /* libboost_system-mt.a in Frameworks */,
-				78D6E36317CF978B0064AA13 /* libboost_system-mt.dylib in Frameworks */,
-				78D6E36417CF978B0064AA13 /* libboost_thread-mt.a in Frameworks */,
-				78D6E36517CF978B0064AA13 /* libboost_thread-mt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,7 +399,6 @@
 		7813092D1744B235000802B2 = {
 			isa = PBXGroup;
 			children = (
-				78D6E35917CF97810064AA13 /* Boost */,
 				785346D517B398E6008F7A52 /* LibOVR */,
 				78B7BF6C17ACDFB600AE36C0 /* Utilities */,
 				78130C711744C7CD000802B2 /* Shaders */,
@@ -430,7 +411,7 @@
 		781309391744B235000802B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				781309381744B235000802B2 /* Procedural Terrain Map */,
+				781309381744B235000802B2 /* A Walk on Mars */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -916,25 +897,12 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
-		78D6E35917CF97810064AA13 /* Boost */ = {
-			isa = PBXGroup;
-			children = (
-				78D6E35A17CF978B0064AA13 /* libboost_timer-mt.a */,
-				78D6E35B17CF978B0064AA13 /* libboost_timer-mt.dylib */,
-				78D6E35C17CF978B0064AA13 /* libboost_system-mt.a */,
-				78D6E35D17CF978B0064AA13 /* libboost_system-mt.dylib */,
-				78D6E35E17CF978B0064AA13 /* libboost_thread-mt.a */,
-				78D6E35F17CF978B0064AA13 /* libboost_thread-mt.dylib */,
-			);
-			name = Boost;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		781309371744B235000802B2 /* Procedural Terrain Map */ = {
+		781309371744B235000802B2 /* A Walk on Mars */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "Procedural Terrain Map" */;
+			buildConfigurationList = 781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "A Walk on Mars" */;
 			buildPhases = (
 				781309341744B235000802B2 /* Sources */,
 				781309351744B235000802B2 /* Frameworks */,
@@ -944,9 +912,9 @@
 			);
 			dependencies = (
 			);
-			name = "Procedural Terrain Map";
+			name = "A Walk on Mars";
 			productName = "Procedural Terrain Map";
-			productReference = 781309381744B235000802B2 /* Procedural Terrain Map */;
+			productReference = 781309381744B235000802B2 /* A Walk on Mars */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -955,10 +923,10 @@
 		7813092F1744B235000802B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Ben-han Sung";
 			};
-			buildConfigurationList = 781309321744B235000802B2 /* Build configuration list for PBXProject "Procedural Terrain Map" */;
+			buildConfigurationList = 781309321744B235000802B2 /* Build configuration list for PBXProject "A Walk on Mars" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -970,7 +938,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				781309371744B235000802B2 /* Procedural Terrain Map */,
+				781309371744B235000802B2 /* A Walk on Mars */,
 			);
 		};
 /* End PBXProject section */
@@ -1002,7 +970,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
@@ -1038,7 +1005,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
@@ -1090,7 +1056,7 @@
 					"-stdlib=libc++",
 					"-std=c++11",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "A Walk on Mars";
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include;
 			};
@@ -1123,7 +1089,7 @@
 					"-stdlib=libc++",
 					"-std=c++11",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "A Walk on Mars";
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include;
 			};
@@ -1132,7 +1098,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		781309321744B235000802B2 /* Build configuration list for PBXProject "Procedural Terrain Map" */ = {
+		781309321744B235000802B2 /* Build configuration list for PBXProject "A Walk on Mars" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				781309401744B236000802B2 /* Debug */,
@@ -1141,7 +1107,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "Procedural Terrain Map" */ = {
+		781309421744B236000802B2 /* Build configuration list for PBXNativeTarget "A Walk on Mars" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				781309431744B236000802B2 /* Debug */,

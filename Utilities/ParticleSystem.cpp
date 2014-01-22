@@ -175,10 +175,10 @@ void FluidCluster::Draw(const Program& p, const glm::mat4& viewProjection,
         Particle &particle = particles[i];
         
         // Orient vertices
-        vec3 o1 = vec3(0.2, -0.2, 0.0);
-        vec3 o2 = vec3(0.2, 0.2, 0);
-        vec3 o3 = vec3(-0.2, 0.2, 0.0);
-        vec3 o4 = vec3(-0.2, -0.2, 0.0);
+        vec3 o1 = vec3(0.2, 0.0, -0.2);
+        vec3 o2 = vec3(0.2, 0.0, 0.2);
+        vec3 o3 = vec3(-0.2, 0.0, 0.2);
+        vec3 o4 = vec3(-0.2, 0.0, -0.2);
         
         vertices[i * 4] = particle.location + cameraQuat * o1 * particle.scale;
         vertices[i * 4 + 1] = particle.location + cameraQuat * o2 * particle.scale;
@@ -205,6 +205,7 @@ void FluidCluster::Draw(const Program& p, const glm::mat4& viewProjection,
     
     ageBuffer.Use(p, "particleAge");
     
+    p.SetUniform("MVP", viewProjection);
     p.SetUniform("textured", 1);
     p.SetUniform("max_age", MAX_LIFETIME);
     p.SetUniform("texture", particleTexture, GL_TEXTURE0);

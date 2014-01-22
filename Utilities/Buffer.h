@@ -1,6 +1,12 @@
 #pragma once
 
-#include "../gl.h"
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
+#endif
 
 #include <vector>
 
@@ -21,7 +27,7 @@ public:
     // Separate delete method (instead of destructor)
     // to avoid copying issues
     virtual void Delete();
-
+    
 protected:
 	GLuint id;
 	GLenum target;
@@ -35,8 +41,8 @@ public:
 	DataBuffer() {}
 	
 	void Bind() const { glBindBuffer(target, id); }
-
-protected: 
+    
+protected:
 	GLenum dataType;
 };
 
@@ -48,8 +54,8 @@ public:
 	DataBuffer() {}
 	
 	void Bind() const { glBindBuffer(target, id); }
-
-protected: 
+    
+protected:
 	GLenum dataType;
 };
 
@@ -61,7 +67,7 @@ public:
 	void Use(const Program& program, const char *name) const;
 	void Unuse(const Program& program, const char *name) const;
 	void Draw(GLenum mode, GLsizei count) const;
-
+    
 protected:
 	GLsizei vertexSize;
 };
@@ -71,7 +77,7 @@ public:
 	ElementArrayBuffer(const std::vector<size_t>& data);
 	ElementArrayBuffer() {}
 	void Draw(GLenum mode) const;
-
+    
 protected:
 	GLsizei size;
 };
@@ -79,26 +85,26 @@ protected:
 class ModelBuffer {
 public:
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-		const ArrayBuffer<glm::vec2>& textureBuffer,
-		const ArrayBuffer<glm::vec3>& normalBuffer,
-		const ElementArrayBuffer& elementBuffer);
+                const ArrayBuffer<glm::vec2>& textureBuffer,
+                const ArrayBuffer<glm::vec3>& normalBuffer,
+                const ElementArrayBuffer& elementBuffer);
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-		const ArrayBuffer<glm::vec3>& normalBuffer,
-		const ElementArrayBuffer& elementBuffer);
+                const ArrayBuffer<glm::vec3>& normalBuffer,
+                const ElementArrayBuffer& elementBuffer);
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-		const ArrayBuffer<glm::vec2>& textureBuffer,
-		const ElementArrayBuffer& elementBuffer);
+                const ArrayBuffer<glm::vec2>& textureBuffer,
+                const ElementArrayBuffer& elementBuffer);
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-		const ElementArrayBuffer& elementBuffer);
+                const ElementArrayBuffer& elementBuffer);
 	ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-		GLsizei count);
+                GLsizei count);
     ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-        const ArrayBuffer<glm::vec2>& textureBuffer,
-        GLsizei count);
-
+                const ArrayBuffer<glm::vec2>& textureBuffer,
+                GLsizei count);
+    
 	void Draw(const Program& p, GLenum mode) const;
     void Delete();
-
+    
 private:
     bool valid;
 	const bool hasTextureBuffer, hasNormalBuffer, hasIndexBuffer;

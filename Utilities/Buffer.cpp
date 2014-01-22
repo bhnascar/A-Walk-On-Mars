@@ -12,7 +12,7 @@ Buffer::Buffer(GLenum target, PFNGLGENBUFFERSPROC genFunc)
 #else
 Buffer::Buffer(GLenum target, void (*genFunc)(GLsizei, GLuint *))
 #endif
-	: target(target)
+: target(target)
 {
 	genFunc(1, &id);
     valid = true;
@@ -46,7 +46,7 @@ static U *toArr(const vector<T>& v) {
 
 template <typename T>
 DataBuffer<T>::DataBuffer(const std::vector<T>& data, GLenum target)
-	: Buffer(target, glGenBuffers)
+: Buffer(target, glGenBuffers)
 {
 	if (data.empty()) {
 		glDeleteBuffers(1, &target);
@@ -69,7 +69,7 @@ DataBuffer<T>::DataBuffer(const std::vector<T>& data, GLenum target)
 }
 
 DataBuffer<size_t>::DataBuffer(const std::vector<size_t>& data, GLenum target)
-	: Buffer(target, glGenBuffers)
+: Buffer(target, glGenBuffers)
 {
 	if (data.empty()) {
 		glDeleteBuffers(1, &target);
@@ -97,7 +97,7 @@ DataBuffer<size_t>::DataBuffer(const std::vector<size_t>& data, GLenum target)
 
 template <typename T>
 ArrayBuffer<T>::ArrayBuffer(const std::vector<T>& data)
-	: DataBuffer<T>(data, GL_ARRAY_BUFFER)
+: DataBuffer<T>(data, GL_ARRAY_BUFFER)
 {
 	if(is_same_type<T, float>::value) {
 		vertexSize = 1;
@@ -143,7 +143,7 @@ void ArrayBuffer<T>::Draw(GLenum mode, GLsizei count) const {
 }
 
 ElementArrayBuffer::ElementArrayBuffer(const std::vector<size_t>& data)
-	: DataBuffer<size_t>(data, GL_ELEMENT_ARRAY_BUFFER), size((int)data.size())
+: DataBuffer<size_t>(data, GL_ELEMENT_ARRAY_BUFFER), size((int)data.size())
 {
 }
 
@@ -167,58 +167,58 @@ void ElementArrayBuffer::Draw(GLenum mode) const {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-	const ArrayBuffer<glm::vec2>& textureBuffer,
-	const ArrayBuffer<glm::vec3>& normalBuffer,
-	const ElementArrayBuffer& elementBuffer)
-	: vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
-	, normalBuffer(normalBuffer), elementBuffer(elementBuffer)
-	, hasTextureBuffer(true), hasNormalBuffer(true), valid(true)
-	, hasIndexBuffer(true)
+                         const ArrayBuffer<glm::vec2>& textureBuffer,
+                         const ArrayBuffer<glm::vec3>& normalBuffer,
+                         const ElementArrayBuffer& elementBuffer)
+: vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
+, normalBuffer(normalBuffer), elementBuffer(elementBuffer)
+, hasTextureBuffer(true), hasNormalBuffer(true), valid(true)
+, hasIndexBuffer(true)
 {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-	const ArrayBuffer<glm::vec3>& normalBuffer,
-	const ElementArrayBuffer& elementBuffer)
-	: vertexBuffer(vertexBuffer)
-	, normalBuffer(normalBuffer), elementBuffer(elementBuffer)
-	, hasTextureBuffer(false), hasNormalBuffer(true), valid(true)
-	, hasIndexBuffer(true)
+                         const ArrayBuffer<glm::vec3>& normalBuffer,
+                         const ElementArrayBuffer& elementBuffer)
+: vertexBuffer(vertexBuffer)
+, normalBuffer(normalBuffer), elementBuffer(elementBuffer)
+, hasTextureBuffer(false), hasNormalBuffer(true), valid(true)
+, hasIndexBuffer(true)
 {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-	const ArrayBuffer<glm::vec2>& textureBuffer,
-	const ElementArrayBuffer& elementBuffer)
-	: vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
-	, elementBuffer(elementBuffer)
-	, hasTextureBuffer(true), hasNormalBuffer(false), valid(true)
-	, hasIndexBuffer(true)
+                         const ArrayBuffer<glm::vec2>& textureBuffer,
+                         const ElementArrayBuffer& elementBuffer)
+: vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
+, elementBuffer(elementBuffer)
+, hasTextureBuffer(true), hasNormalBuffer(false), valid(true)
+, hasIndexBuffer(true)
 {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-	const ElementArrayBuffer& elementBuffer)
-	: vertexBuffer(vertexBuffer), elementBuffer(elementBuffer)
-	, hasTextureBuffer(false), hasNormalBuffer(false), valid(true)
-	, hasIndexBuffer(true)
+                         const ElementArrayBuffer& elementBuffer)
+: vertexBuffer(vertexBuffer), elementBuffer(elementBuffer)
+, hasTextureBuffer(false), hasNormalBuffer(false), valid(true)
+, hasIndexBuffer(true)
 {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-	GLsizei count)
-	: vertexBuffer(vertexBuffer)
-	, hasTextureBuffer(false), hasNormalBuffer(false), valid(true)
-	, hasIndexBuffer(false), count(count)
+                         GLsizei count)
+: vertexBuffer(vertexBuffer)
+, hasTextureBuffer(false), hasNormalBuffer(false), valid(true)
+, hasIndexBuffer(false), count(count)
 {
 }
 
 ModelBuffer::ModelBuffer(const ArrayBuffer<glm::vec3>& vertexBuffer,
-            const ArrayBuffer<glm::vec2>& textureBuffer,
-            GLsizei count)
-    : vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
-    , hasNormalBuffer(false), hasIndexBuffer(false), valid(true)
-    , hasTextureBuffer(true)
+                         const ArrayBuffer<glm::vec2>& textureBuffer,
+                         GLsizei count)
+: vertexBuffer(vertexBuffer), textureBuffer(textureBuffer)
+, hasNormalBuffer(false), hasIndexBuffer(false), valid(true)
+, hasTextureBuffer(true)
 {
 }
 
@@ -244,7 +244,7 @@ void ModelBuffer::Draw(const Program& p, GLenum mode) const {
 		textureBuffer.Use(p, "textureCoordinates");
 	if (hasNormalBuffer)
 		normalBuffer.Use(p, "normalCoordinates");
-
+    
 	if (hasIndexBuffer)
 		elementBuffer.Draw(mode);
 	else
