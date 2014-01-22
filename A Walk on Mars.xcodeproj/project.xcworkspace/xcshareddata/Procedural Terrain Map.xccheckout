@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7DFBFFAD-0970-4BEA-B96D-9C94431880C0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Procedural Terrain Map</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>33AD56DE-EE7F-44DE-B6AB-B3C98F05998B</key>
+		<string>https://github.com/bhnascar/procedural-terrain.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Procedural Terrain Map.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>33AD56DE-EE7F-44DE-B6AB-B3C98F05998B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/bhnascar/procedural-terrain.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>33AD56DE-EE7F-44DE-B6AB-B3C98F05998B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>33AD56DE-EE7F-44DE-B6AB-B3C98F05998B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ProceduralTerrain</string>
+		</dict>
+	</array>
+</dict>
+</plist>
