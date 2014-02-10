@@ -1,4 +1,4 @@
-procedural-terrain
+A Walk on Mars
 ==================
 
-Procedural terrain demo
+Oculus Rift demo
