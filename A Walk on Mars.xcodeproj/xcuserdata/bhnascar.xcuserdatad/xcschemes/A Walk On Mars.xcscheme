@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "781309371744B235000802B2"
-               BuildableName = "Procedural Terrain Map"
+               BuildableName = "A Walk on Mars"
                BlueprintName = "A Walk on Mars"
                ReferencedContainer = "container:A Walk on Mars.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "781309371744B235000802B2"
-            BuildableName = "Procedural Terrain Map"
+            BuildableName = "A Walk on Mars"
             BlueprintName = "A Walk on Mars"
             ReferencedContainer = "container:A Walk on Mars.xcodeproj">
          </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "781309371744B235000802B2"
-            BuildableName = "Procedural Terrain Map"
+            BuildableName = "A Walk on Mars"
             BlueprintName = "A Walk on Mars"
             ReferencedContainer = "container:A Walk on Mars.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "781309371744B235000802B2"
-            BuildableName = "Procedural Terrain Map"
+            BuildableName = "A Walk on Mars"
             BlueprintName = "A Walk on Mars"
             ReferencedContainer = "container:A Walk on Mars.xcodeproj">
          </BuildableReference>

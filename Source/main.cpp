@@ -16,7 +16,6 @@
 #include "../Utilities/Model.h"
 #include "../Utilities/Screen.h"
 #include "../Utilities/bitmap_image.hpp"
-#include "../Utilities/ParticleSystem.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,10 +37,13 @@ using namespace::glm;
 using namespace::std;
 using namespace::OVR::Util::Render;
 
+static int win_width;
+static int win_height;
+
+/* Shader variables */
 static Program *mainShader;
 static Program *distortionShader;
 static Program *screenQuadShader;
-static Program *particleShader;
 
 static FBO *frameBuffer;
 
@@ -53,9 +55,7 @@ static Texture *noiseField;
 static Texture *rock;
 static Texture *sand;
 
-static int win_width;
-static int win_height;
-
+/* OpenGL MVP variables */
 static mat4 projection;
 static mat4 leftProjection;
 static mat4 rightProjection;
@@ -64,9 +64,9 @@ static mat4 view;
 static mat4 leftView;
 static mat4 rightView;
 static mat4 distortionView;
-
 static mat4 TM;
 
+/* OpenGL camera variables */
 static vec3 lightPos;
 static vec3 eyePos;
 static vec3 eyeDir;
@@ -74,6 +74,9 @@ static vec3 eyeLeft;
 static vec3 eyeUp;
 static quat eyeOrientation;
 
+float theta, phi;
+
+/* Oculus Rift variables */
 static vec2 lensCenter;
 static vec2 screenCenter;
 static vec2 scaleIn;
@@ -81,31 +84,12 @@ static vec2 scaleOut;
 static vec4 hmdWarpParm;
 static vec4 chromAbParam;
 
+/* Movement variables */
 bool mforward, mleft, mright, mbackward;
-bool aleft, aright, aup, adown;
-float theta, phi;
 
 Model *grid;
 Model *sphere;
-ParticleSystem *particle_sys;
-
 Screen *screen;
-
-
-void ParticleSystemRender()
-{
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    particleShader->Use();
-    
-    mat4 model = mat4(1);
-    mat4 MVP = projection * view * model;
-    particleShader->SetUniform("base_color", vec3(1.0, 0.0, 0.0));
-    particle_sys->Draw(*particleShader, projection * view, eyePos, eyeOrientation);
-    
-    particleShader->Unuse();
-}
 
 void render()
 {
@@ -117,43 +101,42 @@ void render()
     mainShader->SetUniform("MVP", MVP);
     mainShader->SetUniform("model", model);
     
-    // Lighting
+    // Set up lighting variables
     mainShader->SetUniform("illum", 1);
     mainShader->SetUniform("attenuate", 1);
     mainShader->SetUniform("lightPosition", lightPos);
     mainShader->SetUniform("baseColor", vec3(1.00, 0.55, 0.0));
     
-    // Texturing
+    // Set up texturing variables
     mainShader->SetUniform("displace", 1);
     mainShader->SetUniform("heightMap", heightField, GL_TEXTURE0);
     mainShader->SetUniform("normalMap", normalMap, GL_TEXTURE1);
     mainShader->SetUniform("textured", 1);
     mainShader->SetUniform("texture", noiseField, GL_TEXTURE4);
     
-    // Bump mapping
+    // Set up bump mapping variables
     mainShader->SetUniform ("bumpMapped", 1);
     mainShader->SetUniform("sand", sand, GL_TEXTURE2);
     mainShader->SetUniform("rock", rock, GL_TEXTURE3);
     
+    // Draw landscape
     grid->Draw(*mainShader);
     
-    // Lighting
+    // Set up lighting variables
     mainShader->SetUniform("illum", 1);
     mainShader->SetUniform("lightPosition", lightPos);
     mainShader->SetUniform("baseColor", vec3(1.0, 0.80, 0.50));
     
-    // Texturing
+    // Set up texturing variables
     mainShader->SetUniform("attenuate", 1);
     mainShader->SetUniform("displace", 0);
     mainShader->SetUniform("textured", 0);
     mainShader->SetUniform("bumpMapped", 0);
     
+    // Draw sky sphere
     sphere->Draw(*mainShader);
     
     mainShader->Unuse();
-    
-    // WARNING: VERY UNSTABLE
-    // ParticleSystemRender();
 }
 
 void updateView()
@@ -412,48 +395,6 @@ void keyboard_up(unsigned char key, int x, int y)
     }
 }
 
-/* GLUT arrow key down callback */
-void arrow_down(int key, int x, int y)
-{
-    switch(key) {
-        case GLUT_KEY_DOWN:
-            adown = true;
-            break;
-        case GLUT_KEY_UP:
-            aup = true;
-            break;
-        case GLUT_KEY_LEFT:
-            aleft = true;
-            break;
-        case GLUT_KEY_RIGHT:
-            aright = true;
-            break;
-        default:
-            break;
-    }
-}
-
-/* GLUT arrow key up callback */
-void arrow_up(int key, int x, int y)
-{
-    switch(key) {
-        case GLUT_KEY_DOWN:
-            adown = false;
-            break;
-        case GLUT_KEY_UP:
-            aup = false;
-            break;
-        case GLUT_KEY_LEFT:
-            aleft = false;
-            break;
-        case GLUT_KEY_RIGHT:
-            aright = false;
-            break;
-        default:
-            break;
-    }
-}
-
 
 void mouse(int x, int y)
 {
@@ -501,6 +442,7 @@ float fetchZ(float x, float y)
 
 void animate()
 {
+    // Move
     if (mforward)
         eyePos += WALKING_SPEED * eyeDir;
     if (mbackward)
@@ -509,56 +451,44 @@ void animate()
         eyePos += WALKING_SPEED * eyeLeft;
     if (mright)
         eyePos -= WALKING_SPEED * eyeLeft;
-    
     eyePos.z = fetchZ(eyePos.x, eyePos.y);
     
-    // Compute view vectors
+    // Update camera (view vectors)
     eyeOrientation = normalize(fquat(vec3(0, 0, theta)));
     if (Oculus::IsInfoLoaded()) {
         eyeOrientation = normalize(eyeOrientation * Oculus::GetOrientation());
     }
-    
     eyeUp = normalize(eyeOrientation * vec3(0, 0, 1));
     eyeDir = normalize(eyeOrientation * vec3(0, 1, 0));
     eyeLeft = normalize(eyeOrientation * vec3(-1, 0, 0));
     
-    // Update particle system
-    //times = timer->elapsed();
-    //float elapsedSeconds = (float)times.wall / pow(10.f, 9.f);
-    //particle_sys->Update(elapsedSeconds);
-    
+    // Redraw
     glutPostRedisplay();
 }
 
 void initGlobals()
 {
-    srand((unsigned int)time(NULL));
-    
+    // Initialize shaders
     mainShader = new Program("Shaders/main.vert", "Shaders/main.frag");
     distortionShader = new Program("Shaders/distort.vert", "Shaders/distort2.frag");
     screenQuadShader = new Program("Shaders/quad.vert", "Shaders/quad.frag");
-    particleShader = new Program("Shaders/particles.vert", "Shaders/particles.frag");
     
+    // Initialize camera, lighting
     eyeOrientation = fquat();
-    
     eyePos = vec3(0, 0, 0);
     eyeUp = vec3(0, 0, 1);
     eyeDir = vec3(0, 1, 0);
     eyeLeft = vec3(-1, 0, 0);
-    
     lightPos = vec3(0.0, 0.0, 1.5);
     
+    // Initialie textures
     rock = new Texture("Textures/rock.bmp");
     sand = new Texture("Textures/sand.bmp");
     heightField = new Texture("Textures/mars.bmp");
     normalMap = heightField->GetNormalMap();
     noiseField = new Noise();
     
-    particle_sys = new ParticleSystem();
-    particle_sys->AddFluidCluster(vec3(0, 0, 0),
-                                  vec3(0, 0, 0),
-                                  vec3(237.0f / 255.0f, 201 / 255.0f, 175 / 255.0f));
-    
+    // Load models
     OBJFile obj("Models/grid.obj");
     grid = obj.GenModel();
     
@@ -574,7 +504,7 @@ int main(int argc, char * argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
-    glutCreateWindow("Mars Oculus demo");
+    glutCreateWindow("A Walk on Mars");
     glutPositionWindow(0, 0);
     glutFullScreen();
     
@@ -583,8 +513,6 @@ int main(int argc, char * argv[])
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard_down);
     glutKeyboardUpFunc(keyboard_up);
-    glutSpecialFunc(arrow_down);
-    glutSpecialUpFunc(arrow_up);
     glutIdleFunc(animate);
     glutPassiveMotionFunc(mouse);
     
