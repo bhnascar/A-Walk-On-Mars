@@ -1,4 +1,4 @@
 A Walk on Mars
 ==================
 
-Oculus Rift demo for JPL. Built on top of a custom OpenGL 3D graphics engine written for CS248 at Stanford.
+Oculus Rift demo for JPL. Built with Developer Kit 1 and a custom OpenGL graphics engine originally written for CS248 at Stanford.
